@@ -122,5 +122,7 @@ This projects is under the MIT LICENSE
 ### Live demo
 
 You can test the api endpoints
-<!-- 
-- [Here ](https://ridemw.herokuapp.com/) -->
+
+
+- [Here ](https://fffastapp.herokuapp.com/)
+
