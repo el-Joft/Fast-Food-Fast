@@ -76,6 +76,39 @@ class OrderController {
     });
   }
 
+  static updateAnOrderStatus(req, res) {
+    const { statusCode, errMsg } = isValid(req.body);
+    if (!errMsg) {
+      const orderId = req.params.id;
+      const parsedId = parsedInt(orderId);
+      /* Check if id is a Not a number */
+      if (!(Number.isInteger(parsedId))) {
+        return error(res, 400, 'Order Id is invalid');
+      }
+
+      // const orderIndex = orders.indexOf(order => order.id === parseInt(req.params.orderId, 10));
+      // Look up if it exists or not
+      const order = orders.find(order => order.id === parsedInt(req.params.id));
+   
+      if (!order) return res.status(404).send('The order with the given ID was not found');// return 404
+
+      // Update the Order
+      order.menuId = req.body.menuId;
+      order.timeOrdered = req.body.timeOrdered;
+      order.dateOrdered = req.body.dateOrdered;
+      order.orderedBy = req.body.orderedBy;
+      order.quantity = req.body.quantity;
+      order.totalPrice = req.body.totalPrice;
+
+      return res.status(200).json({
+        order,
+        status: 'Success',
+        message: 'Order updated successfully',
+      });
+    }
+    return error(res, statusCode, errMsg);
+  }
+
   
 }
 
