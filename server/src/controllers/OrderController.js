@@ -11,7 +11,52 @@ class OrderController {
       message: 'All orders',
     });
   }
-}
 
+  static placeAnOrder(req, res) {
+    const {
+      menuId,
+      timeOrdered,
+      dateOrdered,
+      orderedBy,
+      quantity,
+      totalPrice,
+    } = req.body;
+
+    const { statusCode, errMsg } = isValid(req.body);
+    if (!errMsg) {
+      // Check if the id of the menu and the User is a Number
+      
+      const foodId = parsedInt(req.body.menuId);
+
+      const userId = parsedInt(req.body.orderedBy);
+      /* Check if id is a Not a number */
+      /* Check if id is  a Not a number */
+      
+      if (!(Number.isInteger(foodId))) {
+        return error(res, 400, 'Menu is invalid');
+      }
+      if (!(Number.isInteger(userId))) {
+        return error(res, 400, 'User is not Valid');
+      }
+
+      const ItemOrdered = {
+        id: orders.length + 1,
+        menuId,
+        timeOrdered,
+        dateOrdered,
+        orderedBy,
+        quantity,
+        totalPrice,
+      };
+      orders.push(ItemOrdered);
+      return res.status(200).json({
+        order: orders,
+        status: 'Success',
+        message: 'Order was successfully made',
+      });
+    }
+    return error(res, statusCode, errMsg);
+  }
+}
 
 export default OrderController;
