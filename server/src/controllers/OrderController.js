@@ -109,7 +109,20 @@ class OrderController {
     return error(res, statusCode, errMsg);
   }
 
-  
+  static deleteAnOrder(req, res) {
+    const order = orders.find(order => order.id === parsedInt(req.params.id));
+    // Not existing, return 404
+    if (!order) return res.status(404).send('The Order with the given ID was not found');// return  404
+    // Delete
+    const index = orders.indexOf(order);
+    orders.splice(index, 1);
+    // Return the course
+    return res.status(200).json({
+      order,
+      status: 'Success',
+      message: 'Order Deleted Successfully',
+    });
+  }
 }
 
 
