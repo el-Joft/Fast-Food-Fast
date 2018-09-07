@@ -57,6 +57,27 @@ class OrderController {
     }
     return error(res, statusCode, errMsg);
   }
+
+  static fetchAnOrder(req, res) {
+    const orderId = req.params.id;    
+    const parsedId = parsedInt(orderId);
+    /* Check if id is  a Not a number */
+    if (!(Number.isInteger(parsedId))) {
+      return error(res, 400, 'Order Id is invalid');
+    }
+    // Look up if it exists or not
+    const order = orders.find(order => order.id === parsedId);
+
+    if (!order) return res.status(404).send('The order with the given ID was not found');// return 404
+    return res.status(200).json({
+      order,
+      status: 'Success',
+      message: 'Your Order',
+    });
+  }
+
+  
 }
+
 
 export default OrderController;
