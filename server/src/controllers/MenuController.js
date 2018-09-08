@@ -75,6 +75,39 @@ class MenuController {
     });
   }
 
+  static updateAMenuStatus(req, res) {
+    const { statusCode, errMsg } = isValid(req.body);
+    if (!errMsg) {
+      const menuId = req.params.id;
+      const parsedId = parsedInt(menuId);
+      /* Check if id is a Not a number */
+      if (!(Number.isInteger(parsedId))) {
+        return error(res, 400, 'Menu Id is invalid');
+      }
+
+      // const orderIndex = orders.indexOf(order => order.id === parseInt(req.params.orderId, 10));
+      // Look up if it exists or not
+      const menu = menus.find(order => order.id === parsedInt(req.params.id));
+      if (!menu) return res.status(404).send('The menu with the given ID was not found');// return 404
+
+      // Update the menu
+      menu.name = req.body.name,
+      menu.description = req.body.description,
+      menu.image = req.body.image,
+      menu.price = req.body.price,
+      menu.categoryId = req.body.categoryId,
+      menu.isAvailable = req.body.isAvailable;
+
+      return res.status(200).json({
+        menu,
+        status: 'Success',
+        message: 'Menu updated successfully',
+      });
+    }
+    return error(res, statusCode, errMsg);
+  }
+
+  
 }
 
 
