@@ -12,7 +12,6 @@ class MenuController {
     });
   }
 
-  
 }
 
 
