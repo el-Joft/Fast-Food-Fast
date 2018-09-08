@@ -107,7 +107,20 @@ class MenuController {
     return error(res, statusCode, errMsg);
   }
 
-  
+  static deleteAMenu(req, res) {
+    const menu = menus.find(menu => menu.id === parsedInt(req.params.id));
+    // Not existing, return 404
+    if (!menu) return res.status(404).send('The Menu with the given ID was not found');// return  404
+    // Delete
+    const index = menus.indexOf(menu);
+    menus.splice(index, 1);
+    // Return the course
+    return res.status(200).json({
+      menu,
+      status: 'Success',
+      message: 'Menu Deleted Successfully',
+    });
+  }
 }
 
 
