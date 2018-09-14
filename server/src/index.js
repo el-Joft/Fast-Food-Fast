@@ -17,6 +17,8 @@ app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+const port = process.env.PORT || 3000;
+
+app.listen(3000, () => console.log(`Application started on Port ${port}`));
 
 export default app;
