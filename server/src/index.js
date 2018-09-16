@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to fast food fast' });
 });
 
-const port = process.env.PORT || 3000;
+const Port = process.env.PORT || 3000;
 
-app.listen(3000, () => console.log(`Application started on Port ${port}`));
+app.listen(Port, () => console.log(`Application started on Port ${Port}`));
 
 export default app;
