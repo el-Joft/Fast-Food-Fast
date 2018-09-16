@@ -12,7 +12,7 @@ app.use(json());
 app.use('/api/v1/orders', orderRoute);
 app.use('/api/v1/menus', menuRoute);
 
-// app.get('/', (req, res) => res.send('Hello World!'));
+
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 });
