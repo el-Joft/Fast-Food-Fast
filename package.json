@@ -8,7 +8,8 @@
     "dev": "nodemon --exec babel-node ./server/src/index.js",
     "build": "./node_modules/.bin/babel ./server/src -d build",
     "prestart": "npm run build",
-    "start": "node ./build/index.js"
+    "start": "node ./build/index.js",
+    "coverage" : "nyc --reporter=lcov --reporter=text-lcov npm test"
   },
   "engines": {
     "node": "8.9.4"
@@ -34,11 +35,11 @@
     "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
+    "nyc": "^13.0.1",
     "supertest": "^3.2.0"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3"
   }
- 
 }
