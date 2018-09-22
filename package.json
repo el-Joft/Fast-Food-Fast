@@ -9,7 +9,7 @@
     "build": "./node_modules/.bin/babel ./server/src -d build",
     "prestart": "npm run build",
     "start": "node ./build/index.js",
-    "coverage" : "nyc --reporter=lcov --reporter=text-lcov npm test"
+    "coverage" : "nyc --reporter=lcov --reporter=text-lcov npm test | coveralls"
   },
   "engines": {
     "node": "8.9.4"
