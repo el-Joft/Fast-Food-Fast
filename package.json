@@ -1,7 +1,7 @@
 {
   "name": "fastfoodfast",
   "version": "1.0.0",
-  "description": "A food delivery service app for a restaurant.",
+  "description": "A food delivery service app for a restaurant..",
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha --compilers js:babel-register \"./server/src/test/*.spec.js\" --exit",
