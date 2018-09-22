@@ -4,7 +4,7 @@
   "description": "A food delivery service app for a restaurant.",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --compilers js:babel-register \"./server/src/test/*.spec.js\"",
+    "test": "nyc mocha --compilers js:babel-register \"./server/src/test/*.spec.js\" --exit",
     "dev": "nodemon --exec babel-node ./server/src/index.js",
     "build": "./node_modules/.bin/babel ./server/src -d build",
     "prestart": "npm run build",

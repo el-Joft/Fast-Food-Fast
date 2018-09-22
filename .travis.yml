@@ -5,9 +5,11 @@ env:
 global:
  - export SET NODE_ENV=test
 before_script:
-- npm install
+  - npm install
 script:
-- npm test
+  - npm test
+after_script:
+  - npm run coverage
 cache:
   directories:
     - "node_modules"
