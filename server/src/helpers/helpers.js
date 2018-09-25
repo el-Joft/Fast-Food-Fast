@@ -9,6 +9,7 @@ export const isValid = (order) => {
     quantity,
     totalPrice,
   } = order;
+ 
   const statusCode = 401;
   let errMsg;
 

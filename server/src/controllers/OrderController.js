@@ -62,12 +62,12 @@ class OrderController {
     const orderId = req.params.id;
     // const parsedId = parsedInt(orderId);
     /* Check if id is  a Not a number */
-    const orderInt = parseInt(orderId, 10);
-    if (isNaN(orderInt)) {
+    // const orderInt = parseInt(orderId, 10);
+    if (isNaN(orderId)) {
       return error(res, 400, 'Order Id is invalid');
     }
     // Look up if it exists or not
-    const order = orders.find(order => order.id === orderInt);
+    const order = orders.find(order => order.id === parseInt(orderId, 10));
 
     if (!order) return res.status(404).send('The order with the given ID was not found');// return 404
     return res.status(200).json({
@@ -77,13 +77,13 @@ class OrderController {
     });
   }
 
-  static updateAnOrderStatus(req, res) {
+  static updateAnOrderStatus(req, res) {    
     const { statusCode, errMsg } = isValid(req.body);
     if (!errMsg) {
       const orderId = req.params.id;
-      const parsedId = parseInt(orderId, 10);
+      // const parsedId = parseInt(orderId, 10);
       /* Check if id is a Not a number */
-      if (isNaN(parsedId)) {
+      if (isNaN(orderId)) {
         return error(res, 400, 'Order Id is invalid');
       }
 
