@@ -100,7 +100,7 @@ describe('Test to get all orders', () => {
         });
     });
   });
-  describe('Test to delete an Oder', () => {
+  describe('Test to delete an Order', () => {
     it('should return 200 if an order was successfully deleted', (done) => {
       chai.request(app)
         .delete('/api/v1/orders/1')

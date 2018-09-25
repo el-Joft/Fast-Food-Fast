@@ -1,8 +1,5 @@
 
-// Check the id of every request to see if they are number or not
-export const parsedInt = id => ((!(/^\d+$/.test(id))) ? NaN : parseInt(id, 10));
-
-/* Validate fields for create new ride offers */
+/* Validate fields for create new Menu */
 export const isValid = (menu) => {
   // Check all Orders
   const {

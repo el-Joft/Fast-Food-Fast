@@ -1,5 +1,5 @@
 import database from '../data/index';
-import { error, parsedInt, isValid } from '../helpers/helpers';
+import { error, isValid } from '../helpers/helpers';
 
 const { orders } = database;
 
@@ -25,17 +25,17 @@ class OrderController {
     const { statusCode, errMsg } = isValid(req.body);
     if (!errMsg) {
       // Check if the id of the menu and the User is a Number
-      
-      const foodId = parsedInt(req.body.menuId);
 
-      const userId = parsedInt(req.body.orderedBy);
+      const foodId = parseInt(req.body.menuId, 10);
+
+      const userId = parseInt(req.body.orderedBy, 10);
       /* Check if id is a Not a number */
       /* Check if id is  a Not a number */
-      
-      if (!(Number.isInteger(foodId))) {
+
+      if (isNaN(foodId)) {
         return error(res, 400, 'Menu is invalid');
       }
-      if (!(Number.isInteger(userId))) {
+      if (isNaN(userId)) {
         return error(res, 400, 'User is not Valid');
       }
 
@@ -59,14 +59,15 @@ class OrderController {
   }
 
   static fetchAnOrder(req, res) {
-    const orderId = req.params.id;    
-    const parsedId = parsedInt(orderId);
+    const orderId = req.params.id;
+    // const parsedId = parsedInt(orderId);
     /* Check if id is  a Not a number */
-    if (!(Number.isInteger(parsedId))) {
+    // const orderInt = parseInt(orderId, 10);
+    if (isNaN(orderId)) {
       return error(res, 400, 'Order Id is invalid');
     }
     // Look up if it exists or not
-    const order = orders.find(order => order.id === parsedId);
+    const order = orders.find(order => order.id === parseInt(orderId, 10));
 
     if (!order) return res.status(404).send('The order with the given ID was not found');// return 404
     return res.status(200).json({
@@ -76,20 +77,20 @@ class OrderController {
     });
   }
 
-  static updateAnOrderStatus(req, res) {
+  static updateAnOrderStatus(req, res) {    
     const { statusCode, errMsg } = isValid(req.body);
     if (!errMsg) {
       const orderId = req.params.id;
-      const parsedId = parsedInt(orderId);
+      // const parsedId = parseInt(orderId, 10);
       /* Check if id is a Not a number */
-      if (!(Number.isInteger(parsedId))) {
+      if (isNaN(orderId)) {
         return error(res, 400, 'Order Id is invalid');
       }
 
       // const orderIndex = orders.indexOf(order => order.id === parseInt(req.params.orderId, 10));
       // Look up if it exists or not
-      const order = orders.find(order => order.id === parsedInt(req.params.id));
-   
+      const order = orders.find(order => order.id === parseInt(req.params.id, 10));
+
       if (!order) return res.status(404).send('The order with the given ID was not found');// return 404
 
       // Update the Order
@@ -110,7 +111,7 @@ class OrderController {
   }
 
   static deleteAnOrder(req, res) {
-    const order = orders.find(order => order.id === parsedInt(req.params.id));
+    const order = orders.find(order => order.id === parseInt(req.params.id, 10));
     // Not existing, return 404
     if (!order) return res.status(404).send('The Order with the given ID was not found');// return  404
     // Delete
