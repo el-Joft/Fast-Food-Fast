@@ -22,7 +22,7 @@ class OrderController {
       totalPrice,
     } = req.body;
 
-    const { statusCode, errMsg } = isValid(req.body);
+    const { errMsg } = isValid(req.body);
     if (!errMsg) {
       // Check if the id of the menu and the User is a Number
 
@@ -55,7 +55,7 @@ class OrderController {
         message: 'Order was successfully made',
       });
     }
-    return error(res, statusCode, errMsg);
+    return error(res, errMsg);
   }
 
   static fetchAnOrder(req, res) {
@@ -78,7 +78,7 @@ class OrderController {
   }
 
   static updateAnOrderStatus(req, res) {    
-    const { statusCode, errMsg } = isValid(req.body);
+    const { errMsg } = isValid(req.body);
     if (!errMsg) {
       const orderId = req.params.id;
       // const parsedId = parseInt(orderId, 10);
@@ -107,7 +107,7 @@ class OrderController {
         message: 'Order updated successfully',
       });
     }
-    return error(res, statusCode, errMsg);
+    return error(res, errMsg);
   }
 
   static deleteAnOrder(req, res) {

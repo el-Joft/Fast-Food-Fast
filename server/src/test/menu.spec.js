@@ -6,7 +6,7 @@ import app from '../index';
 chai.use(chaiHttp);
 
 describe('Test to get all Menus', () => {
-  /* All ride offers */
+  /* All Menus */
   describe('/GET api/v1/menus', () => {
     it('should return all Menus', (done) => {
       chai.request(app)
