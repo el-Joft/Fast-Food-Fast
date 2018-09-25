@@ -10,7 +10,7 @@ export const isValid = (menu) => {
     categoryId,
     isAvailable,
   } = menu;
-
+  const statusCode = 401;
   let errMsg;
 
   if (!name && name.trim() === '') {
@@ -23,13 +23,14 @@ export const isValid = (menu) => {
   if (!price) {
     errMsg = 'Price is Required';
   }
-
+  
 
   if (!categoryId) {
     errMsg = 'Specify the Category of the Menu';
   }
-  return errMsg;
+  return { statusCode, errMsg };
 };
 
+
 /* returns the response of a request */
-export const error = (res, message) => res.status(401).json({ status: 'error', message });
+export const error = (res, statusCode, message) => res.status(statusCode).json({ status: 'error', message });

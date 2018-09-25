@@ -22,7 +22,7 @@ class MenuController {
       isAvailable,
     } = req.body;
 
-    const { errMsg } = isValid(req.body);
+    const { statusCode, errMsg } = isValid(req.body);
     if (!errMsg) {
       // Check if the id of the menu and the User is a Number
 
@@ -54,7 +54,7 @@ class MenuController {
         message: 'Menu was successfully Created',
       });
     }
-    return error(res, errMsg);
+    return error(res, statusCode, errMsg);
   }
 
   static fetchAMenu(req, res) {
@@ -76,7 +76,7 @@ class MenuController {
   }
 
   static updateAMenuStatus(req, res) {
-    const { errMsg } = isValid(req.body);
+    const { statusCode, errMsg } = isValid(req.body);
     if (!errMsg) {
       const menuId = req.params.id;
       const parsedId = parseInt(menuId, 10);
@@ -104,7 +104,7 @@ class MenuController {
         message: 'Menu updated successfully',
       });
     }
-    return error(res, errMsg);
+    return error(res, statusCode, errMsg);
   }
 
   static deleteAMenu(req, res) {
