@@ -1,6 +1,6 @@
 
 /* Validate fields for create new orders */
-export const isValid = (order) => {
+export const createOrderValidation = (order) => {
   // Check all Orders
   const {
     menuId,
@@ -9,7 +9,7 @@ export const isValid = (order) => {
     quantity,
     totalPrice,
   } = order;
- 
+
   const statusCode = 401;
   let errMsg;
 

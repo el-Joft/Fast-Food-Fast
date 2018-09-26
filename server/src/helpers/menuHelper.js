@@ -1,6 +1,6 @@
 
 /* Validate fields for create new Menu */
-export const isValid = (menu) => {
+export const createMenuValidation = (menu) => {
   // Check all Orders
   const {
     name,
