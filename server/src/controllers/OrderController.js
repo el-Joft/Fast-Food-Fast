@@ -1,5 +1,5 @@
 import database from '../data/index';
-import { error, isValid } from '../helpers/helpers';
+import { error, createOrderValidation } from '../helpers/helpers';
 
 const { orders } = database;
 
@@ -22,7 +22,7 @@ class OrderController {
       totalPrice,
     } = req.body;
 
-    const { statusCode, errMsg } = isValid(req.body);
+    const { statusCode, errMsg } = createOrderValidation(req.body);
     if (!errMsg) {
       // Check if the id of the menu and the User is a Number
 
@@ -78,7 +78,7 @@ class OrderController {
   }
 
   static updateAnOrderStatus(req, res) {    
-    const { statusCode, errMsg } = isValid(req.body);
+    const { statusCode, errMsg } = createOrderValidation(req.body);
     if (!errMsg) {
       const orderId = req.params.id;
       // const parsedId = parseInt(orderId, 10);

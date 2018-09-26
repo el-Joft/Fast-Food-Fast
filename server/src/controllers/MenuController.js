@@ -1,5 +1,5 @@
 import database from '../data/index';
-import { error, isValid } from '../helpers/menuHelper';
+import { error, createMenuValidation } from '../helpers/menuHelper';
 
 const { menus } = database;
 
@@ -22,7 +22,7 @@ class MenuController {
       isAvailable,
     } = req.body;
 
-    const { statusCode, errMsg } = isValid(req.body);
+    const { statusCode, errMsg } = createMenuValidation(req.body);
     if (!errMsg) {
       // Check if the id of the menu and the User is a Number
 
@@ -76,7 +76,7 @@ class MenuController {
   }
 
   static updateAMenuStatus(req, res) {
-    const { statusCode, errMsg } = isValid(req.body);
+    const { statusCode, errMsg } = createMenuValidation(req.body);
     if (!errMsg) {
       const menuId = req.params.id;
       const parsedId = parseInt(menuId, 10);
