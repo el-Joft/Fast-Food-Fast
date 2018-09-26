@@ -6,7 +6,7 @@ import app from '../index';
 chai.use(chaiHttp);
 
 describe('Test to get all orders', () => {
-  /* All ride offers */
+  /* All orders made */
   describe('/GET api/v1/orders', () => {
     it('should return all orders made', (done) => {
       chai.request(app)
@@ -67,7 +67,6 @@ describe('Test to get all orders', () => {
         .end((error, res) => {
           expect(res).to.have.status(200);
           expect(parseInt(res.body.order.id, 10)).to.equal(1);
-          console.log(res.body.order.id);
           
           expect(res.body.order.id).to.be.a('number');
           assert.isObject(res.body, 'is an object containing an order details');
