@@ -364,8 +364,11 @@ nav{
     
 }
 .footer-home{
-    height: 450px!important;
+    height: 500px!important;
     
+}
+.footer-navigation a{
+    color: #fff;
 }
 .contact-form{
     width: 100%;
