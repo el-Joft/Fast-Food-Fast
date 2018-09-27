@@ -9,7 +9,7 @@ export const createOrderValidation = (order) => {
     quantity,
     totalPrice,
   } = order;
-
+  
   const statusCode = 401;
   let errMsg;
 
@@ -26,6 +26,7 @@ export const createOrderValidation = (order) => {
   if (!quantity) {
     errMsg = 'Quantity of food item is required';
   }
+  
   if (!totalPrice) {
     errMsg = 'Total cost of item is required';
   }
