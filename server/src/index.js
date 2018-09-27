@@ -1,6 +1,6 @@
 import express from 'express';
 import { urlencoded, json } from 'body-parser';
-import orderRoute from './routes/orderRoute/orderRoute';
+import router from './routes/orderRoute/orderRoute';
 import menuRoute from './routes/menuRoute/menuRoute';
 
 
@@ -9,7 +9,7 @@ const app = express();
 app.use(urlencoded({ extended: false }));
 app.use(json());
 
-app.use('/api/v1/orders', orderRoute);
+app.use('/api/v1/orders', router);
 app.use('/api/v1/menus', menuRoute);
 
 
