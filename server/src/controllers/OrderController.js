@@ -21,7 +21,10 @@ class OrderController {
       totalPrice,
     } = req.body;
 
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
     const ItemOrdered = {
       id: orders.length + 1,
       menuId,
@@ -44,12 +47,19 @@ class OrderController {
     const orderId = req.params.id;
 
     if (isNaN(orderId)) {
+<<<<<<< Updated upstream
       res.status(400).send('Order Id is Invalid');
+=======
+      res.status(400).json('User Id is Invalid');
+>>>>>>> Stashed changes
     }
     // Look up if it exists or not
     const order = orders.find(order => order.id === parseInt(orderId, 10));
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     if (!order) res.status(404).send('The order with the given ID was not found');// return 404
     res.status(200).json({
       order,
@@ -58,16 +68,26 @@ class OrderController {
     });
   }
 
+<<<<<<< Updated upstream
   static updateAnOrderStatus(req, res, next) {
     const orderId = req.params.id;
     
+=======
+  static updateAnOrderStatus(req, res) {
+    const orderId = req.params.id;
+
+>>>>>>> Stashed changes
     if (isNaN(orderId)) {
       res.status(400).json('User Id is Invalid');
     }
     // Look up if it exists or not
     const order = orders.find(order => order.id === parseInt(req.params.id, 10));
 
+<<<<<<< Updated upstream
     if (!order) res.status(404).send('The order with the given ID was not found');// return 404
+=======
+    if (!order) return res.status(404).send('The order with the given ID was not found');// return 404
+>>>>>>> Stashed changes
 
     // Update the Order
     order.menuId = req.body.menuId;

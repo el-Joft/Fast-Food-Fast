@@ -44,13 +44,21 @@ class MenuController {
     const parsedId = parseInt(menuId, 10);
     /* Check if id is  a Not a number */
     if (isNaN(menuId)) {
+<<<<<<< Updated upstream
       res.status(400).send('Menu Id is Invalid');
+=======
+      res.status(400).json('Menu Id is Invalid');
+>>>>>>> Stashed changes
     }
     // Look up if it exists or not
     const menu = menus.find(menu => menu.id === parsedId);
 
     if (!menu) res.status(404).send('The menu with the given ID was not found');// return 404
+<<<<<<< Updated upstream
     res.status(200).json({
+=======
+    return res.status(200).json({
+>>>>>>> Stashed changes
       menu,
       status: 'Success',
       message: 'Your Menu',
