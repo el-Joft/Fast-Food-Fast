@@ -1,9 +1,21 @@
 import OrderController from '../controllers/OrderController';
 import Validation from '../helpers/Validation';
 import MenuController from '../controllers/MenuController';
+import pool from '../config/databaseConfig';
+import OrdersController from '../pgControllers/ordersController';
 
 
 const Routes = (router) => {
+  router.get('/', (req, res) => {
+    pool.query('SELECT NOW()', (err, response) => {
+      console.log(err, response);
+      pool.end();
+    });
+    res.status(200).json({ message: 'Welcome to fast food fast' });
+  });
+
+  router.get('/test', OrdersController.listAllOrders);
+
   router.route('/api/v1/orders')
     .get(OrderController.listAllOrders)
     .post(Validation.createOrUpdateOrderValidation, OrderController.placeAnOrder);

@@ -1,6 +1,8 @@
 import express from 'express';
 import { urlencoded, json } from 'body-parser';
 import Routes from './routes/index';
+import pool from './config/databaseConfig';
+
 
 const app = express();
 
@@ -16,9 +18,6 @@ app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 });
 
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Welcome to fast food fast' });
-});
 
 const Port = process.env.PORT || 3000;
 
