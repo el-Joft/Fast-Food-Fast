@@ -1,7 +1,7 @@
 import express from 'express';
 import { urlencoded, json } from 'body-parser';
 import Routes from './routes/index';
-import pool from './config/databaseConfig';
+// import pool from './config/databaseConfig';
 
 
 const app = express();
