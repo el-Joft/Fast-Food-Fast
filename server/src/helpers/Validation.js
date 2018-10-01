@@ -32,14 +32,14 @@ class Validation {
     }
 
     if (errMsg) {
-      res.status(401).json(errMsg);
+      return res.status(401).json(errMsg);
     }
 
     if (isNaN(menuId)) {
-      res.status(400).send('MenuId is Invalid');
+      return res.status(400).send('MenuId is Invalid');
     }
     if (isNaN(orderedBy)) {
-      res.status(400).send('UserId is Invalid');
+      return res.status(400).send('UserId is Invalid');
     }
 
     next();
@@ -72,17 +72,17 @@ class Validation {
     }
 
     if (errMsg) {
-      res.status(404).send(errMsg);
+      return res.status(404).send(errMsg);
     }
 
     if (isNaN(categoryId)) {
-      res.status(400).send('Category is invalid');
+      return res.status(400).send('Category is invalid');
     }
     if (isNaN(price)) {
-      res.status(404).send('Price must be a Number');
+      return res.status(404).send('Price must be a Number');
     }
 
-    next();
+    return next();
   }
 }
 

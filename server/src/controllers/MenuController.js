@@ -4,7 +4,7 @@ const { menus } = database;
 
 class MenuController {
   static listAllMenus(req, res) {
-    res.status(200).json({
+    return res.status(200).json({
       menus,
       status: 'Success',
       message: 'All menus',
@@ -40,17 +40,15 @@ class MenuController {
   }
 
   static fetchAMenu(req, res) {
-    const menuId = req.params.id;
-    const parsedId = parseInt(menuId, 10);
-    /* Check if id is  a Not a number */
-    if (isNaN(menuId)) {
-      res.status(400).json('Menu Id is Invalid');
+    const { id } = req.params;
+    if (isNaN(id)) {
+      return res.status(400).json({ message: 'Menu Id is Invalid' });
     }
-    // Look up if it exists or not
-    const menu = menus.find(menu => menu.id === parsedId);
-
-    if (!menu) res.status(404).send('The menu with the given ID was not found');// return 404
-    res.status(200).json({
+    const menu = menus.find(element => element.id === parseInt(id, 10));
+    if (!menu) {
+      return res.status(404).json({ message: 'The menu with the given ID was not found' });
+    }
+    return res.json({
       menu,
       status: 'Success',
       message: 'Your Menu',
@@ -60,7 +58,7 @@ class MenuController {
   static updateAMenuStatus(req, res) {
     // Look up if it exists or not
     const menu = menus.find(order => order.id === parseInt(req.params.id, 10));
-    if (!menu) res.status(404).send('The menu with the given ID was not found');// return 404
+    if (!menu) return res.status(404).send('The menu with the given ID was not found');// return 404
 
     // Update the menu
     menu.name = req.body.name,
@@ -70,26 +68,29 @@ class MenuController {
     menu.categoryId = req.body.categoryId,
     menu.isAvailable = req.body.isAvailable;
 
-    res.status(200).json({
+    return res.status(200).json({
       menu,
       status: 'Success',
       message: 'Menu updated successfully',
     });
   }
+  
 
   static deleteAMenu(req, res) {
-    const menuId = req.params.id;
-    if (isNaN(menuId)) {
-      res.status(400).send('Menu Id is Invalid');
+    const { id } = req.params;
+    if (isNaN(id)) {
+      return res.status(400).json({ message: 'Menu Id is Invalid' });
     }
     const menu = menus.find(menu => menu.id === parseInt(req.params.id, 10));
     // Not existing, return 404
-    if (!menu) res.status(404).send('The Menu with the given ID was not found');// return  404
+    if (!menu) {
+      return res.status(404).json({ message: 'The Menu with the given ID was not found' });
+    }
     // Delete
     const index = menus.indexOf(menu);
     menus.splice(index, 1);
     // Return the course
-    res.status(200).json({
+    return res.status(200).json({
       menu,
       status: 'Success',
       message: 'Menu Deleted Successfully',

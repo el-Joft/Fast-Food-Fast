@@ -87,18 +87,18 @@ describe('Test to get all orders', () => {
     });
   });
 
-  // /* Should not parse any id with alphabetic characters */
-  // describe('Test for id with alphabet', () => {
-  //   it('should retun an error message if Id has alphabet', (done) => {
-  //     chai.request(app)
-  //       .get('/api/v1/orders/123abcd')
-  //       .end((message, res) => {
-  //         expect(res).to.have.status(400);
-  //         expect(res.body.message).to.equal('User Id is Invalid');
-  //         done();
-  //       });
-  //   });
-  // });
+  /* Should not parse any id with alphabetic characters */
+  describe('Test for id with alphabet', () => {
+    it('should retun an error message if Id has alphabet', (done) => {
+      chai.request(app)
+        .get('/api/v1/orders/123abcd')
+        .end((message, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal('User Id is Invalid');
+          done();
+        });
+    });
+  });
   describe('Test to delete an Order', () => {
     it('should return 200 if an order was successfully deleted', (done) => {
       chai.request(app)
