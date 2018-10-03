@@ -1,39 +1,31 @@
 import OrderController from '../controllers/OrderController';
 import Validation from '../helpers/Validation';
 import MenuController from '../controllers/MenuController';
-// import pool from '../config/databaseConfig';
-// import OrdersController from '../pgControllers/ordersController';
-
+import UserController from '../controllers/UserController';
+import { ensureAutheticated } from '../middlewares/authentication/authMiddleware';
+import isAdmin from '../middlewares/authentication/isAdminMiddleware';
 
 const Routes = (router) => {
-  // router.get('/', (req, res) => {
-  //   pool.query('SELECT NOW()', (err, response) => {
-  //     console.log(err, response);
-  //     pool.end();
-  //   });
-  //   res.status(200).json({ message: 'Welcome to fast food fast' });
-  // });
-
-  // router.get('/test', OrdersController.listAllOrders);
+  router.post('/api/v1/users', Validation.createUserValidation, UserController.createUser);
+  router.post('/api/v1/users/login', Validation.loginUserValidation, UserController.loginUser);
 
   router.route('/api/v1/orders')
-    .get(OrderController.listAllOrders)
+    .get(isAdmin, ensureAutheticated, OrderController.listAllOrders)
     .post(Validation.createOrUpdateOrderValidation, OrderController.placeAnOrder);
 
   router.route('/api/v1/menus')
     .get(MenuController.listAllMenus)
-    .post(Validation.createOrUpdateMenuValidation, MenuController.createAMenu);
+    .post(isAdmin, ensureAutheticated, Validation.createOrUpdateMenuValidation, MenuController.createAMenu);
 
   router.route('/api/v1/orders/:id')
-    .get(OrderController.fetchAnOrder)
-    .put(Validation.createOrUpdateOrderValidation, OrderController.updateAnOrderStatus)
-    .delete(OrderController.deleteAnOrder);
+    .get(ensureAutheticated, OrderController.fetchAnOrder)
+    .put(isAdmin, ensureAutheticated, Validation.createOrUpdateOrderValidation, OrderController.updateAnOrderStatus)
+    .delete(isAdmin, ensureAutheticated, OrderController.deleteAnOrder);
 
   router.route('/api/v1/menus/:id')
     .get(MenuController.fetchAMenu)
-    .put(Validation.createOrUpdateMenuValidation, MenuController.updateAMenuStatus)
-    .delete(MenuController.deleteAMenu);
+    .put(isAdmin, ensureAutheticated, Validation.createOrUpdateMenuValidation, MenuController.updateAMenuStatus)
+    .delete(isAdmin, ensureAutheticated, MenuController.deleteAMenu);
 };
-
 
 export default Routes;
