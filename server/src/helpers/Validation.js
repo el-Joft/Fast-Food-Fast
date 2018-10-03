@@ -3,20 +3,16 @@ class Validation {
     const order = req.body;
     const {
       menuId,
-      timeOrdered,
       orderedBy,
       quantity,
       totalPrice,
     } = order;
     let errMsg;
-
+    
     if (!menuId) {
       errMsg = 'Menu Id is required';
     }
 
-    if (!timeOrdered && timeOrdered.trim() === '') {
-      errMsg = 'Ordered Time is required';
-    }
     if (!orderedBy) {
       errMsg = 'The user Id ordering is required';
     }
@@ -32,14 +28,13 @@ class Validation {
     }
 
     if (errMsg) {
-      return res.status(401).json(errMsg);
+      res.status(401).json(errMsg);
     }
-
     if (isNaN(menuId)) {
-      return res.status(400).send('MenuId is Invalid');
+      res.status(400).send('MenuId is Invalid');
     }
     if (isNaN(orderedBy)) {
-      return res.status(400).send('UserId is Invalid');
+      res.status(400).send('UserId is Invalid');
     }
 
     next();
@@ -72,17 +67,16 @@ class Validation {
     }
 
     if (errMsg) {
-      return res.status(404).send(errMsg);
+      res.status(404).send(errMsg);
     }
 
     if (isNaN(categoryId)) {
-      return res.status(400).send('Category is invalid');
+      res.status(400).send('Category is invalid');
     }
     if (isNaN(price)) {
-      return res.status(404).send('Price must be a Number');
+      res.status(404).send('Price must be a Number');
     }
-
-    return next();
+    next();
   }
 }
 

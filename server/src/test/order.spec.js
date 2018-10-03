@@ -18,27 +18,25 @@ describe('Test to get all orders', () => {
         });
     });
   });
-  // describe('Test to create an Order', () => {
-  //   it('should return 200 for a successfully creating an Order', (done) => {
-  //     const data = {
-  //       menuId: 1,
-  //       timeOrdered: '12:45am',
-  //       dateOrdered: '14/09/2017',
-  //       orderedBy: 1,
-  //       quantity: 2,
-  //       totalPrice: 1999.99,
-  //     };
-  //     chai.request(app)
-  //       .post('/api/v1/orders')
-  //       .send(data)
-  //       .end((err, res) => {
-  //         expect(res).to.have.status(200);
-  //         expect(res.body.message).to.equal('Order was successfully made');
-  //         expect(res.body).to.be.an('object');
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('Test to create an Order', () => {
+    it('should return 200 for a successfully creating an Order', (done) => {
+      const data = {
+        menuId: 1,
+        orderedBy: 1,
+        quantity: 2,
+        totalPrice: 1999.99,
+      };
+      chai.request(app)
+        .post('/api/v1/orders')
+        .send(data)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.equal('Order was successfully made');
+          expect(res.body).to.be.an('object');
+          done();
+        });
+    });
+  });
   // describe('Test to Update an Order', () => {
   //   it('it should return 200 if successful', (done) => {
   //     const data = {
