@@ -1,13 +1,21 @@
-import database from '../data/index';
-
-const { menus } = database;
+import {
+  findAllOrder, find, deleteOrder, menuText,
+} from '../helpers/queryHelpers';
+import pool from '../config/databaseConfig';
 
 class MenuController {
   static listAllMenus(req, res) {
-    return res.status(200).json({
-      menus,
-      status: 'Success',
-      message: 'All menus',
+    pool.query(findAllOrder('*', 'menus'), (err, response) => {
+      if (err) {
+        console.log(err);
+        
+        return res.status(500).send('Could not establish database connection');
+      }
+      if (response.rowCount > 0) {
+        const allOrders = response.rows;
+        return res.status(200).send({ message: 'All Menus', allOrders });
+      }
+      return res.status(404).send({ message: 'No menu found' });
     });
   }
 
@@ -22,79 +30,143 @@ class MenuController {
     } = req.body;
 
 
-    const createMenu = {
-      id: menus.length + 1,
+    const values = [
       name,
       description,
       image,
       price,
       categoryId,
       isAvailable,
-    };
-    menus.push(createMenu);
-    return res.status(200).json({
-      menus,
-      status: 'Success',
-      message: 'Menu was successfully Created',
+    ];
+    pool.query(menuText, values, (err, response) => {
+      if (err) {
+        console.log(err.stack);
+        res.status(500).json({
+          message: 'Could not successfully create an Order',
+          error: err.stack,
+        });
+      } else {
+        const result = response.rows[0];
+        res.json({
+          result,
+          status: 'Success',
+          message: 'Your Menu',
+        });
+      }
     });
   }
 
   static fetchAMenu(req, res) {
     const { id } = req.params;
     if (isNaN(id)) {
-      return res.status(400).json({ message: 'Menu Id is Invalid' });
+      res.status(400).json({ message: 'Menu Id is Invalid' });
+    } else {
+      pool.query(find('*', 'menus', 'id', id), (err, response) => {
+        if (err) {
+          res.status(500).send('Could not establish database connection');
+        } else {
+          const result = response.rows[0];
+          if (result) {
+            res.json({
+              result,
+              status: 'Success',
+              message: 'Your Menu',
+            });
+          } else {
+            res.json({
+              status: 404,
+              message: 'Order with the Id not found',
+            });
+          }
+        }
+      });
     }
-    const menu = menus.find(element => element.id === parseInt(id, 10));
-    if (!menu) {
-      return res.status(404).json({ message: 'The menu with the given ID was not found' });
-    }
-    return res.json({
-      menu,
-      status: 'Success',
-      message: 'Your Menu',
-    });
+    
   }
 
   static updateAMenuStatus(req, res) {
-    // Look up if it exists or not
-    const menu = menus.find(order => order.id === parseInt(req.params.id, 10));
-    if (!menu) return res.status(404).send('The menu with the given ID was not found');// return 404
-
-    // Update the menu
-    menu.name = req.body.name,
-    menu.description = req.body.description,
-    menu.image = req.body.image,
-    menu.price = req.body.price,
-    menu.categoryId = req.body.categoryId,
-    menu.isAvailable = req.body.isAvailable;
-
-    return res.status(200).json({
-      menu,
-      status: 'Success',
-      message: 'Menu updated successfully',
-    });
+   
+    const { id } = req.params;
+    if (isNaN(id)) {
+      res.status(400).json({ message: 'Order Id is Invalid' });
+    } else {
+      pool.query(find('*', 'menus', 'id', id), (err, response) => {
+        if (err) {
+          res.status(500).send('Could not establish database connection');
+        } else {
+          const result = response.rows[0];
+          if (result) {
+            const {
+              name,
+              description,
+              image,
+              price,
+              categoryId,
+              isAvailable,
+            } = req.body;
+            const values = [
+              name,
+              description,
+              image,
+              price,
+              categoryId,
+              isAvailable,
+            ];
+            pool.query(`
+            UPDATE menus SET name = $1, description= $2, image = $3, price = $4, categoryId = $5, isAvailable= $6
+            WHERE id = ${id} returning *`, values, (error, responses) => {
+              if (err) {
+                res.status(500).send('Could not establish database connection');
+              } else {
+                const results = responses.rows[0];
+                res.json({
+                  results,
+                  status: 'Success',
+                  message: 'Your Order',
+                });
+              }
+            });
+          } else {
+            res.status(404).json({
+              message: 'Menu Id Not Found',
+            });
+          }
+        }
+      });
+    }
   }
-  
+
 
   static deleteAMenu(req, res) {
     const { id } = req.params;
+  
     if (isNaN(id)) {
-      return res.status(400).json({ message: 'Menu Id is Invalid' });
+      res.status(400).json({ message: 'Menu Id is Invalid' });
+    } else {
+      pool.query(find('*', 'menus', 'id', id), (err, response) => {
+        if (err) {
+          res.status(500).send('Could not establish database connection');
+        } else {
+          const result = response.rows[0];
+          if (result) {
+            pool.query(deleteOrder(id, 'menus'), (error, responses) => {
+              if (error) {
+                res.status(500).send('Could not establish database connection');
+              } else {
+                const results = responses.rows[0];
+                res.status(200).json({
+                  results,
+                  status: 'Success',
+                  message: 'Deleted',
+                });
+              }
+            });
+          } else {
+            res.status(404).send('The Menu Id cannot be found');
+          }
+        }
+      });
     }
-    const menu = menus.find(menu => menu.id === parseInt(req.params.id, 10));
-    // Not existing, return 404
-    if (!menu) {
-      return res.status(404).json({ message: 'The Menu with the given ID was not found' });
-    }
-    // Delete
-    const index = menus.indexOf(menu);
-    menus.splice(index, 1);
-    // Return the course
-    return res.status(200).json({
-      menu,
-      status: 'Success',
-      message: 'Menu Deleted Successfully',
-    });
   }
 }
 
