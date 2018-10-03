@@ -1,5 +1,5 @@
 import pool from '../config/databaseConfig';
-import { orderText } from '../helpers/queryHelpers';
+import { orderText, find } from '../helpers/queryHelpers';
 
 
 class OrderController {
@@ -61,7 +61,32 @@ class OrderController {
     });
   }
 
-  static fetchAnOrder(req, res) {}
+  static fetchAnOrder(req, res) {
+    const { id } = req.params;
+    if (isNaN(id)) {
+      res.status(400).json({ message: 'Order Id is Invalid' });
+    } else {
+      pool.query(find('*', 'orders', 'id', id), (err, response) => {
+        if (err) {
+          res.status(500).send('Could not establish database connection');
+        } else {
+          const result = response.rows[0];
+          if (result) {
+            res.json({
+              result,
+              status: 'Success',
+              message: 'Your Order',
+            });
+          } else {
+            res.json({
+              status: 404,
+              message: 'Order with the Id not found',
+            });
+          }
+        }
+      });
+    }
+  }
 
   static updateAnOrderStatus(req, res) {}
 

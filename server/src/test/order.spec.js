@@ -58,20 +58,20 @@ describe('Test to get all orders', () => {
   //   });
   // });
 
-  // describe('Test for single order id', () => {
-  //   it('should return an order', (done) => {
-  //     chai.request(app)
-  //       .get('/api/v1/orders/1')
-  //       .end((error, res) => {
-  //         expect(res).to.have.status(200);
-  //         expect(parseInt(res.body.order.id, 10)).to.equal(1);
+  describe('Test for single order id', () => {
+    it('should return an order', (done) => {
+      chai.request(app)
+        .get('/api/v1/orders/1')
+        .end((error, res) => {
+          expect(res).to.have.status(200);
+          expect(parseInt(res.body.result.id, 10)).to.equal(1);
           
-  //         expect(res.body.order.id).to.be.a('number');
-  //         assert.isObject(res.body, 'is an object containing an order details');
-  //         done();
-  //       });
-  //   });
-  // });
+          expect(res.body.result.id).to.be.a('number');
+          assert.isObject(res.body, 'is an object containing an order details');
+          done();
+        });
+    });
+  });
 
   // /* valid character but not availiable */
   // describe('Check for invalid order Id', () => {
