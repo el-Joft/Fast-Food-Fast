@@ -1,4 +1,5 @@
 import pool from '../config/databaseConfig';
+import { orderText } from '../helpers/queryHelpers';
 
 
 class OrderController {
@@ -26,7 +27,39 @@ class OrderController {
     });
   }
 
-  static placeAnOrder(req, res) {}
+  static placeAnOrder(req, res) {
+    const {
+      menuId,
+      orderedBy,
+      quantity,
+      totalPrice,
+    } = req.body;
+
+    const values = [
+      menuId,
+      orderedBy,
+      quantity,
+      totalPrice,
+    ];
+
+    // callback
+    pool.query(orderText, values, (err, response) => {
+      if (err) {
+        console.log(err.stack);
+        res.status(500).json({
+          message: 'Could not successfully create an Order',
+          error: err.stack,
+        });
+      } else {
+        const result = response.rows[0];
+        res.json({
+          result,
+          status: 'Success',
+          message: 'Order was successfully made',
+        });
+      }
+    });
+  }
 
   static fetchAnOrder(req, res) {}
 
