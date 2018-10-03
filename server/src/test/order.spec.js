@@ -37,26 +37,24 @@ describe('Test to get all orders', () => {
         });
     });
   });
-  // describe('Test to Update an Order', () => {
-  //   it('it should return 200 if successful', (done) => {
-  //     const data = {
-  //       menuId: 1,
-  //       timeOrdered: '12:45am',
-  //       dateOrdered: '14/09/2017',
-  //       orderedBy: 1,
-  //       quantity: 2,
-  //       totalPrice: 1999.99,
-  //     };
-  //     chai.request(app)
-  //       .put('/api/v1/orders/1')
-  //       .send(data)
-  //       .end((error, response) => {
-  //         expect(response).to.have.status(200);
-  //         expect(response.body).to.be.an('object');
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('Test to Update an Order', () => {
+    it('it should return 200 if successful', (done) => {
+      const data = {
+        menuId: 1,
+        orderedBy: 1,
+        quantity: 2,
+        totalPrice: 1999.99,
+      };
+      chai.request(app)
+        .put('/api/v1/orders/1')
+        .send(data)
+        .end((error, response) => {
+          expect(response).to.have.status(200);
+          expect(response.body).to.be.an('object');
+          done();
+        });
+    });
+  });
 
   describe('Test for single order id', () => {
     it('should return an order', (done) => {
@@ -73,30 +71,30 @@ describe('Test to get all orders', () => {
     });
   });
 
-  // /* valid character but not availiable */
-  // describe('Check for invalid order Id', () => {
-  //   it('should show a not found message', (done) => {
-  //     chai.request(app)
-  //       .get('/api/v1/orders/10')
-  //       .end((error, res) => {
-  //         expect(res).to.have.status(404);
-  //         done(error);
-  //       });
-  //   });
-  // });
+  /* valid character but not availiable */
+  describe('Check for invalid order Id', () => {
+    it('should show a not found message', (done) => {
+      chai.request(app)
+        .get('/api/v1/orders/100')
+        .end((error, res) => {
+          expect(res).to.have.status(404);
+          done(error);
+        });
+    });
+  });
 
-  // /* Should not parse any id with alphabetic characters */
-  // describe('Test for id with alphabet', () => {
-  //   it('should retun an error message if Id has alphabet', (done) => {
-  //     chai.request(app)
-  //       .get('/api/v1/orders/123abcd')
-  //       .end((message, res) => {
-  //         expect(res).to.have.status(400);
-  //         expect(res.body.message).to.equal('User Id is Invalid');
-  //         done();
-  //       });
-  //   });
-  // });
+  /* Should not parse any id with alphabetic characters */
+  describe('Test for id with alphabet', () => {
+    it('should retun an error message if Id has alphabet', (done) => {
+      chai.request(app)
+        .get('/api/v1/orders/123abcd')
+        .end((message, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal('Order Id is Invalid');
+          done();
+        });
+    });
+  });
   // describe('Test to delete an Order', () => {
   //   it('should return 200 if an order was successfully deleted', (done) => {
   //     chai.request(app)
