@@ -7,8 +7,7 @@ const createOrderTables = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
     orders(
       id SERIAL PRIMARY KEY,
-      menuId INT NOT NULL,
-      FOREIGN KEY (menuId) REFERENCES menus (id),
+      menuId JSON NOT NULL,
       timeOrdered TIME WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
       orderedBy INT NOT NULL,
       FOREIGN KEY (orderedBy) REFERENCES users (id),

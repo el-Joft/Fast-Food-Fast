@@ -37,6 +37,7 @@ class OrderController {
       quantity,
       totalPrice,
     ];
+    
 
     // callback
     pool.query(orderText, values, (err, response) => {

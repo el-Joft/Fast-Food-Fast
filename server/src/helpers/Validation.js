@@ -1,6 +1,16 @@
 class Validation {
   static createOrUpdateOrderValidation(req, res, next) {
     const order = req.body;
+    // let menus;
+    // let data;
+    // if (orders) {
+    //   for (const ordered in orders) {
+    //     menus = orders[ordered];
+    //   }
+    // }
+    // menus.map((item) => {
+    //   data = item;
+    // });
     const {
       menuId,
       orderedBy,
@@ -18,7 +28,6 @@ class Validation {
     if (!quantity) {
       errMsg = 'Quantity of food item is required';
     }
-
     // if (!totalPrice) {
     //   errMsg = 'Total cost of item is required';
     // }
@@ -35,7 +44,6 @@ class Validation {
     if (isNaN(orderedBy)) {
       res.status(400).send('UserId is Invalid');
     }
-
     next();
   }
 

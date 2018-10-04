@@ -49,7 +49,7 @@ class MenuController {
         });
       } else {
         const result = response.rows[0];
-        res.status(200).json({
+        res.status(201).json({
           result,
           status: 'Success',
           message: 'Menu was successfully Created',
@@ -121,7 +121,7 @@ class MenuController {
                 console.log(error);
               } else {
                 const results = responses.rows[0];
-                res.status(200).json({
+                res.status(201).json({
                   results,
                   status: 'Success',
                   message: 'Your Order',
