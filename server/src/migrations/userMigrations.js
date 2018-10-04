@@ -7,15 +7,15 @@ const createUsersTables = () => {
     users(
     id SERIAL PRIMARY KEY NOT NULL,
     role INT DEFAULT 0,
-    email CHARACTER (26) NOT NULL,
-    password CHARACTER (250) NOT NULL,
-    phone CHARACTER (15),
-    firstName CHARACTER varying(26) NOT NULL,
-    lastName CHARACTER(26),
+    email varchar(250) NOT NULL,
+    password varchar(250) NOT NULL,
+    phone varchar(15),
+    firstName varchar(250) NOT NULL,
+    lastName varchar(250),
     address TEXT,
     city TEXT,
     createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    zipCode CHARACTER VARYING(15)
+    zipCode varchar(15)
     )`;
 
   pool.query(queryText)

@@ -75,8 +75,7 @@ class MenuController {
               message: 'Your Menu',
             });
           } else {
-            res.json({
-              status: 404,
+            res.status(404).json({
               message: 'Order with the Id not found',
             });
           }

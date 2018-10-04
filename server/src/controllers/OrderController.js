@@ -25,35 +25,34 @@ class OrderController {
 
   static placeAnOrder(req, res) {
     const {
-      menuId,
-      orderedBy,
+      menuid,
+      orderedby,
       quantity,
-      totalPrice,
+      totalprice,
     } = req.body;
 
     const values = [
-      menuId,
-      orderedBy,
+      menuid,
+      orderedby,
       quantity,
-      totalPrice,
+      totalprice,
     ];
 
     // callback
     pool.query(orderText, values, (err, response) => {
       if (err) {
         console.log(err.stack);
-        res.status(500).json({
+        return res.status(500).json({
           message: 'Could not successfully create an Order',
           error: err.stack,
         });
-      } else {
-        const result = response.rows[0];
-        res.json({
-          result,
-          status: 'Success',
-          message: 'Order was successfully made',
-        });
       }
+      const result = response.rows[0];
+      return res.status(201).json({
+        result,
+        status: 'Success',
+        message: 'Order was successfully made',
+      });
     });
   }
 
@@ -123,41 +122,37 @@ class OrderController {
         const result = response.rows[0];
         if (result) {
           const {
-            menuId,
-            orderedBy,
+            menuid,
+            orderedby,
             quantity,
-            totalPrice,
+            totalprice,
           } = req.body;
           const values = [
-            menuId,
-            orderedBy,
+            menuid,
+            orderedby,
             quantity,
-            totalPrice,
+            totalprice,
           ];
           pool.query(`
-            UPDATE orders SET menuId = $1, orderedBy= $2, quantity = $3, totalPrice = $4 WHERE id = ${id} returning *`, values, (err, responses) => {
-            if (err) {
-              res.status(500).send('Could not establish database connection');
-            } else {
-              const order = responses.rows[0];
-              res.status(200).json({
-                order,
-                status: 'Success',
-                message: 'Your Order',
-              });
+            UPDATE orders SET menuid = $1, orderedby= $2, quantity = $3, totalprice = $4 WHERE id = ${id} RETURNING *`, values, (error, responses) => {
+            if (error) {
+              return res.status(500).send('Could not establish database connection');
             }
+            const order = responses.rows[0];
+            return res.status(200).json({
+              order,
+              status: 'Success',
+              message: 'Your Order',
+            });
           });
         } else {
-          res.status(404).json({
+          return res.status(404).json({
 
             message: 'Order with the Id not found',
           });
         }
       }
     });
-  }
-  static adminUpdateOrder(req ,res){
-    
   }
 
   static deleteAnOrder(req, res) {
