@@ -11,7 +11,7 @@
     "start": "node ./build/index.js",
     "coverage": "nyc report --reporter=lcov --reporter=text-lcov | coveralls",
     "migration": "nodemon --exec babel-node ./server/src/migrations/index.js",
-    "drop" : "nodemon --exec babel-node ./server/src/migrations/drop.js"
+    "drop": "nodemon --exec babel-node ./server/src/migrations/drop.js"
   },
   "engines": {
     "node": "8.9.4"
