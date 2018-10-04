@@ -50,7 +50,7 @@ describe('Test to get all Menus', () => {
         isAvailable: true,
       };
       chai.request(app)
-        .put('/api/v1/menus/1')
+        .put('/api/v1/menus/6')
         .send(data)
         .end((error, response) => {
           expect(response).to.have.status(200);
@@ -79,7 +79,7 @@ describe('Test to get all Menus', () => {
   describe('Check for invalid order Id', () => {
     it('should show a not found message', (done) => {
       chai.request(app)
-        .get('/api/v1/menus/10')
+        .get('/api/v1/menus/1000000')
         .end((error, res) => {
           expect(res).to.have.status(404);
           done(error);

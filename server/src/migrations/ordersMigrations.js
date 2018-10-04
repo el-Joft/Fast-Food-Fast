@@ -8,8 +8,10 @@ const createOrderTables = () => {
     orders(
       id SERIAL PRIMARY KEY,
       menuId INT NOT NULL,
+      FOREIGN KEY (menuId) REFERENCES menus (id),
       timeOrdered TIME WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
       orderedBy INT NOT NULL,
+      FOREIGN KEY (orderedBy) REFERENCES users (id),
       quantity   INT NOT NULL,
       totalPrice MONEY NOT NULL,
       created_date TIMESTAMP DEFAULT NOW(),
@@ -19,11 +21,9 @@ const createOrderTables = () => {
   pool.query(queryText)
     .then((res) => {
       console.log(res);
-      pool.end();
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
     });
 };
 

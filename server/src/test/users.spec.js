@@ -12,14 +12,14 @@ describe('Test users signup routes', () => {
   describe('/GET api/v1/auth/signup', () => {
     it('users should be able to create an account', (done) => {
       const data = {
-        firstName: 'trust',
-        lastName: 'jamine',
+        firstName: 'Timothy',
+        lastName: 'Omotayo',
         phone: '07059972180',
-        email: 'joek@gmail.com',
-        password: 'joeeasy',
-        confirmPassword: 'joeeasy',
-        address: '42 montgomery',
-        city: 'Yaba',
+        email: 'ottimothy@gmail.com',
+        password: '12345',
+        confirmPassword: '12345',
+        address: 'Andela ',
+        city: 'Lagos',
         zipCode: '101212',
       };
       chai.request(app)
@@ -36,14 +36,14 @@ describe('Test users signup routes', () => {
   describe('/GET api/v1/auth/signup', () => {
     it('users should not be able to create an account twice', (done) => {
       const data = {
-        firstName: 'trust',
-        lastName: 'jamine',
+        firstName: 'Timothy',
+        lastName: 'Omotayo',
         phone: '07059972180',
-        email: 'joek@gmail.com',
-        password: 'joeeasy',
-        confirmPassword: 'joeeasy',
-        address: '42 montgomery',
-        city: 'Yaba',
+        email: 'ottimothy@gmail.com',
+        password: '12345',
+        confirmPassword: '12345',
+        address: 'Andela ',
+        city: 'Lagos',
         zipCode: '101212',
       };
       chai.request(app)
@@ -60,14 +60,14 @@ describe('Test users signup routes', () => {
   describe('/GET api/v1/auth/signup', () => {
     it('users cannot create an account when credentials are not complete', (done) => {
       const data = {
-        firstName: '',
-        lastName: 'jamine',
+        // firstName: 'Timothy',
+        lastName: 'Omotayo',
         phone: '07059972180',
-        email: 'joek@gmail.com',
-        password: 'joeeasy',
-        confirmPassword: 'joeeasy',
-        address: '42 montgomery',
-        city: 'Yaba',
+        email: 'ottimothy@gmail.com',
+        password: '12345',
+        confirmPassword: '12345',
+        address: 'Andela ',
+        city: 'Lagos',
         zipCode: '101212',
       };
       chai.request(app)
@@ -87,8 +87,8 @@ describe('Test users signin routes', () => {
   describe('/GET api/v1/auth/signin', () => {
     it('users should not be able to login in when wrong credentials are provided', (done) => {
       const data = {
-        email: 'joek@gmail.com',
-        password: 'joeeas0000y',
+        email: 'ottimothy.com',
+        password: '01010101',
       };
       chai.request(app)
         .post('/api/v1/auth/signin')
@@ -104,7 +104,7 @@ describe('Test users signin routes', () => {
   describe('/GET api/v1/auth/signin', () => {
     it('users should not be able to signin when credentials are incomplete', (done) => {
       const data = {
-        email: 'joek@gmail.com',
+        email: '',
         password: '',
       };
       chai.request(app)
@@ -120,8 +120,8 @@ describe('Test users signin routes', () => {
   describe('/GET api/v1/auth/signin', () => {
     it('users should be able to login account to their account', (done) => {
       const data = {
-        email: 'joek@gmail.com',
-        password: 'joeeasy',
+        email: 'ottimothy@gmail.com',
+        password: '12345',
       };
       chai.request(app)
         .post('/api/v1/auth/signin')
@@ -134,4 +134,3 @@ describe('Test users signin routes', () => {
     });
   });
 });
-

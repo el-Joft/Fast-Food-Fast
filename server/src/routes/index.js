@@ -6,8 +6,10 @@ import { ensureAutheticated } from '../middlewares/authentication/authMiddleware
 import isAdmin from '../middlewares/authentication/isAdminMiddleware';
 
 const Routes = (router) => {
-  router.post('/api/v1/users', Validation.createUserValidation, UserController.createUser);
-  router.post('/api/v1/users/login', Validation.loginUserValidation, UserController.loginUser);
+  router.post('/api/v1/auth/signup', Validation.createUserValidation, UserController.createUser);
+  router.post('/api/v1/auth/login', Validation.loginUserValidation, UserController.loginUser);
+
+  router.get('/api/v1/:id/orders', OrderController.fetchAnOrderByUser);
 
   router.route('/api/v1/orders')
     .get(isAdmin, ensureAutheticated, OrderController.listAllOrders)

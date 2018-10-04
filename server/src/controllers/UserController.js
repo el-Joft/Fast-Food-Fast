@@ -37,7 +37,6 @@ class UserController {
             } else {
               const results = data.rows[0];
               const token = jwt.sign({
-                id: results.id,
                 role: results.role,
                 email: results.email,
               }, config.secret, {
