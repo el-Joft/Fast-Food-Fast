@@ -3,3 +3,4 @@ https://blog.jscrambler.com/testing-apis-mocha-2/
 https://linuxhint.com/postgresql-nodejs-tutorial/
 https://medium.freecodecamp.org/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52?gi=d3aea9b4fb80
 https://www.tutorialspoint.com/postgresql/postgresql_data_types.html
+https://repl.it/@el_Joft/OOP-with-Javascript-by-Omotayo-Timothy-Fehintolu

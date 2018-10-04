@@ -20,11 +20,10 @@ const createMenusTables = () => {
   pool.query(queryText)
     .then((res) => {
       console.log(res);
-      pool.end();
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+     
     });
 };
 

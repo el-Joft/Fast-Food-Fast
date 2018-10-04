@@ -9,7 +9,8 @@ global:
  - export SET NODE_ENV=test
 before_script:
   - npm install
-  - psql -c 'create database Fast-Food-Fast;' -U postgres
+  - psql -c "CREATE DATABASE Fast-Food-Fasr;" -U postgres
+  - psql -c "CREATE USER Fehintolu WITH PASSWORD '12345';" -U postgres
 script:
   - npm test
 after_script:
@@ -18,3 +19,5 @@ cache:
   directories:
     - "node_modules"
   yarn: true
+
+

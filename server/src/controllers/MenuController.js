@@ -1,21 +1,23 @@
-import {
-  findAllOrder, find, deleteOrder, menuText,
-} from '../helpers/queryHelpers';
+import { find, deleteOrder, menuText } from '../helpers/queryHelpers';
 import pool from '../config/databaseConfig';
 
 class MenuController {
   static listAllMenus(req, res) {
-    pool.query(findAllOrder('*', 'menus'), (err, response) => {
+    pool.query(('SELECT * FROM menus'), (err, response) => {
       if (err) {
-        console.log(err);
-        
-        return res.status(500).send('Could not establish database connection');
+        res.status(500).send('Could not establish database connection');
+      } else if (response.rowCount > 0) {
+        const result = response.rows;
+        res.status(200).json({
+          result,
+          status: 'Success',
+          message: 'Your Menus',
+        });
+      } else {
+        res.status(404).json({
+          message: 'Menu Not Found',
+        });
       }
-      if (response.rowCount > 0) {
-        const allOrders = response.rows;
-        return res.status(200).send({ message: 'All Menus', allOrders });
-      }
-      return res.status(404).send({ message: 'No menu found' });
     });
   }
 
@@ -47,10 +49,10 @@ class MenuController {
         });
       } else {
         const result = response.rows[0];
-        res.json({
+        res.status(200).json({
           result,
           status: 'Success',
-          message: 'Your Menu',
+          message: 'Menu was successfully Created',
         });
       }
     });
@@ -81,17 +83,16 @@ class MenuController {
         }
       });
     }
-    
   }
 
   static updateAMenuStatus(req, res) {
-   
     const { id } = req.params;
     if (isNaN(id)) {
       res.status(400).json({ message: 'Order Id is Invalid' });
     } else {
       pool.query(find('*', 'menus', 'id', id), (err, response) => {
         if (err) {
+          console.log(err);
           res.status(500).send('Could not establish database connection');
         } else {
           const result = response.rows[0];
@@ -115,11 +116,12 @@ class MenuController {
             pool.query(`
             UPDATE menus SET name = $1, description= $2, image = $3, price = $4, categoryId = $5, isAvailable= $6
             WHERE id = ${id} returning *`, values, (error, responses) => {
-              if (err) {
+              if (error) {
                 res.status(500).send('Could not establish database connection');
+                console.log(error);
               } else {
                 const results = responses.rows[0];
-                res.json({
+                res.status(200).json({
                   results,
                   status: 'Success',
                   message: 'Your Order',
@@ -139,7 +141,7 @@ class MenuController {
 
   static deleteAMenu(req, res) {
     const { id } = req.params;
-  
+
     if (isNaN(id)) {
       res.status(400).json({ message: 'Menu Id is Invalid' });
     } else {
