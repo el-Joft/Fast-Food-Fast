@@ -13,7 +13,6 @@ global:
 before_script:
   - npm install
   - "psql -c 'create database fastfoodfast;' -U postgres"
-  - "rake db:migrate"
 script:
   - npm test
 after_script:
