@@ -82,25 +82,25 @@ describe('Test to get all Menus', () => {
     });
   });
 
-  // describe('Test to Update an Order', () => {
-  //   it('it should return 200 if successful', (done) => {
-  //     const data = {
-  //       menuid: secondMenuId,
-  //       orderedby: 1,
-  //       quantity: 2,
-  //       totalprice: 1999.99,
-  //     };
-  //     chai.request(app)
-  //       .put(`/api/v1/orders/${firstOrder}`)
-  //       .send(data)
-  //       .set('token', token)
-  //       .end((error, response) => {
-  //         expect(response).to.have.status(200);
-  //         expect(response.body).to.be.an('object');
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('Test to Update an Order', () => {
+    it('it should return 200 if successful', (done) => {
+      const data = {
+        menuid: secondMenuId,
+        orderedby: 1,
+        quantity: 2,
+        totalprice: 1999.99,
+      };
+      chai.request(app)
+        .put(`/api/v1/orders/${firstOrder}`)
+        .send(data)
+        .set('token', token)
+        .end((error, response) => {
+          expect(response).to.have.status(200);
+          expect(response.body).to.be.an('object');
+          done();
+        });
+    });
+  });
 
   describe('Test for single order id', () => {
     it('should return an order', (done) => {
