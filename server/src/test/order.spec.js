@@ -23,7 +23,6 @@ describe('Test to get all orders', () => {
   });
 
 
-
   /* valid character but not availiable */
   describe('Check for invalid order Id', () => {
     it('should show a not found message', (done) => {
@@ -52,14 +51,15 @@ describe('Test to get all orders', () => {
   });
 
   describe('Test to delete an Order', () => {
-    // it('should return 200 if an order was successfully deleted', (done) => {
-    //   chai.request(app)
-    //     .delete('/api/v1/orders/2')
-    //     .end((err, res) => {
-    //       expect(res).to.have.status(200);
-    //       done();
-    //     });
-    // });
+    it('should return 200 if an order was successfully deleted', (done) => {
+      chai.request(app)
+        .delete('/api/v1/orders/1')
+        .set('token', token)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
     it('should return 404 if parameter is not found', (done) => {
       chai.request(app)
         .delete('/api/v1/orders/0')
