@@ -1,6 +1,7 @@
 import chai, { assert, expect } from 'chai';
 import chaiHttp from 'chai-http';
 
+import { log } from 'util';
 import app from '../index';
 
 chai.use(chaiHttp);
@@ -72,7 +73,7 @@ describe('Test to get all Menus', () => {
         .send(data)
         .set('token', token)
         .end((err, res) => {
-          firstOrder = res.body.result.id;
+          firstOrder = res.body.results.id;
           expect(res).to.have.status(201);
           expect(res.body.message).to.equal('Order was successfully made');
           expect(res.body).to.be.an('object');
