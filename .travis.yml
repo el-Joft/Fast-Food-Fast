@@ -3,16 +3,16 @@ node_js:
   - "8.9.4"
 
 postgres:
-  adapter: postgresql
-  database: fastfoodfast
-  username: postgres
+  # adapter: postgresql
+  # database: fastfoodfast
+  # username: postgres
 services:
   - postgresql
 global:
  - export SET NODE_ENV=test
 before_script:
   - npm install
-  - "psql -c 'create database fastfoodfast;' -U postgres"
+  # - "psql -c 'create database fastfoodfast;' -U postgres"
 script:
   - npm test
 after_script:
