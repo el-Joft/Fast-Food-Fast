@@ -37,7 +37,7 @@ class OrderController {
       quantity,
       totalprice,
     ];
-
+    pool
     // callback
     pool.query(orderText, values, (err, response) => {
       if (err) {
@@ -108,6 +108,43 @@ class OrderController {
         }
       });
     }
+  }
+
+  static adminUpdateOrderStatus(req, res) {
+    const { id } = req.params;
+    if (isNaN(id)) {
+      res.status(400).json({ message: 'Order Id is Invalid' });
+    }
+    pool.query(find('*', 'orders', 'id', id), (err, response) => {
+      if (err) {
+        res.status(500).send('Could not establish database connection');
+      } else {
+        const result = response.rows[0];
+        if (result) {
+          const {
+            status,
+          } = req.body;
+          const value = status;
+          pool.query(`
+          UPDATE orders SET status = '${value}' WHERE id = ${id} RETURNING *`, (error, responses) => {
+            if (error) {
+              return res.status(500).send('Could not establish database connection');
+            }
+            const order = responses.rows[0];
+            return res.status(200).json({
+              order,
+              status: 'Success',
+              message: 'Your Order',
+            });
+          });
+        } else {
+          return res.status(404).json({
+
+            message: 'Order with the Id not found',
+          });
+        }
+      }
+    });
   }
 
   static updateAnOrderStatus(req, res) {
