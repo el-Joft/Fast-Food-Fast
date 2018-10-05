@@ -28,31 +28,43 @@ class OrderController {
       menuid,
       orderedby,
       quantity,
-      totalprice,
     } = req.body;
 
-    const values = [
-      menuid,
-      orderedby,
-      quantity,
-      totalprice,
-    ];
-    pool
-    // callback
-    pool.query(orderText, values, (err, response) => {
+    pool.query(find('*', 'menus', 'id', menuid), (err, data) => {
       if (err) {
-        console.log(err.stack);
-        return res.status(500).json({
-          message: 'Could not successfully create an Order',
-          error: err.stack,
-        });
+        res.status(500).send('Could not establish database connection');
+      } else {
+        const result = data.rows[0];
+        if (result) {
+          const orderPrice = result.price;
+          const totalprice = orderPrice;
+          const values = [
+            menuid,
+            orderedby,
+            quantity,
+            totalprice,
+          ];
+          // callback
+          pool.query(orderText, values, (error, response) => {
+            if (error) {
+              return res.status(500).json({
+                message: 'Could not successfully create an Order',
+                error: err.stack,
+              });
+            }
+            const results = response.rows[0];
+            return res.status(201).json({
+              results,
+              status: 'Success',
+              message: 'Order was successfully made',
+            });
+          });
+        } else {
+          res.status(404).json({
+            message: 'Order with the Menu Id not found',
+          });
+        }
       }
-      const result = response.rows[0];
-      return res.status(201).json({
-        result,
-        status: 'Success',
-        message: 'Order was successfully made',
-      });
     });
   }
 
