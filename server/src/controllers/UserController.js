@@ -9,7 +9,7 @@ dotenv.config();
 class UserController {
   static createUser(req, res) {
     const email = req.body.email.trim();
-    const hashedPassword = bcrypt.hashSync(req.body.password.trim(), process.env.SALT);
+    const hashedPassword = bcrypt.hashSync(req.body.password.trim(), 10);
     /* check if Email address is already existing */
     pool.query(find('email', 'users', 'email', email), (err, response) => {
       if (err) {
