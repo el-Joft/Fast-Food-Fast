@@ -51,15 +51,17 @@ class Validation {
     } = menu;
     let errMsg;
 
-
-    if (!name && name.trim() === '') {
+    if (!menu) {
+      return res.status(403).json({ errMsg: 'Please send valid datas' });
+    }
+    if (!name || name.trim() === '') {
       errMsg = 'Name of the Menu is required';
     }
     if (!name || name.length >= 50) {
       errMsg = 'Name Field cannot be more than 50 characters';
     }
 
-    if (!description && description.trim() === '') {
+    if (!description || description.trim() === '') {
       errMsg = 'Menu Description is Required';
     }
     if (!description || description.length >= 250) {
@@ -82,6 +84,35 @@ class Validation {
     if (isNaN(price)) {
       return res.status(404).send('Price must be a Number');
     }
+    if (errMsg) {
+      return res.status(400).json({
+        message: errMsg,
+      });
+    }
+    next();
+  }
+
+  static adminUpdateOrderStatusValidation(req, res, next) {
+    const order = req.body.status;
+    let errMsg;
+    let status;
+
+    if (!order) {
+      errMsg = 'Status cannot be empty';
+    } else {
+      status = order.toLowerCase();
+      status.trim();
+      // if (status != 'processing' || status != 'completed' || status != 'cancelled') {
+      //   errMsg = ' Order status can only be Processing and Cancelled, Completed';
+      // }
+      if (!status || status.length >= 11) {
+        errMsg = 'Status Field cannot be more than 10 characters';
+      }
+      if (!status || status.trim() === '' && (typeof status !== 'string')) {
+        errMsg = 'Status cannot be empty, must be string';
+      }
+    }
+
     if (errMsg) {
       return res.status(400).json({
         message: errMsg,
