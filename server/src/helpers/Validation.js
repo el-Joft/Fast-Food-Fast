@@ -22,7 +22,7 @@ class Validation {
     // if (!totalPrice) {
     //   errMsg = 'Total cost of item is required';
     // }
-    if (quantity < 1) {
+    if (!quantity || quantity < 1) {
       errMsg = 'Quantity must cannot be less than 1';
     }
 
