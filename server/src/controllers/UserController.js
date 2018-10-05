@@ -1,13 +1,15 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import { userText, find } from '../helpers/queryHelpers';
 import pool from '../config/databaseConfig';
-import config from '../../../config';
+// import config from '../../../config';
+dotenv.config();
 
 class UserController {
   static createUser(req, res) {
     const email = req.body.email.trim();
-    const hashedPassword = bcrypt.hashSync(req.body.password.trim(), config.SALT);
+    const hashedPassword = bcrypt.hashSync(req.body.password.trim(), process.env.SALT);
     /* check if Email address is already existing */
     pool.query(find('email', 'users', 'email', email), (err, response) => {
       if (err) {
@@ -36,7 +38,7 @@ class UserController {
           const token = jwt.sign({
             role: results.role,
             email: results.email,
-          }, config.secret, {
+          }, process.env.secret, {
             expiresIn: 86400, // expires in 24 hours
           });
           delete results.password;
@@ -65,7 +67,7 @@ class UserController {
           const token = jwt.sign({
             role: userResult.role,
             email: userResult.email,
-          }, config.secret, {
+          }, process.env.secret, {
             expiresIn: 86400, // expires in 24 hours
           });
           if (bcrypt.compareSync(password, userResult.password.trim())) {
