@@ -7,7 +7,6 @@ global:
  - export SET NODE_ENV=test
 before_script:
   - npm install
-  - psql -c "CREATE DATABASE travis_ci_test;" -U postgres
 script:
   - npm test
 after_script:
