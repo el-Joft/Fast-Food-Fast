@@ -1,17 +1,19 @@
 language: node_js
 node_js:
   - "8.9.4"
+
+postgres:
+  # adapter: postgresql
+  # database: fastfoodfast
+  # username: postgres
 services:
   - postgresql
 global:
  - export SET NODE_ENV=test
 before_script:
   - npm install
-  - npm run drop
-  - npm run migration
-  - psql -c "CREATE DATABASE travis_ci_test;" -U postgres
+  # - "psql -c 'create database fastfoodfast;' -U postgres"
 script:
-  -npm run migration
   - npm test
 after_script:
   - npm run coverage
@@ -19,5 +21,4 @@ cache:
   directories:
     - "node_modules"
   yarn: true
-
 
