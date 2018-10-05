@@ -51,15 +51,17 @@ class Validation {
     } = menu;
     let errMsg;
 
-
-    if (!name && name.trim() === '') {
+    if (!menu) {
+      return res.status(403).json({ errMsg: 'Please send valid datas' });
+    }
+    if (!name || name.trim() === '') {
       errMsg = 'Name of the Menu is required';
     }
     if (!name || name.length >= 50) {
       errMsg = 'Name Field cannot be more than 50 characters';
     }
 
-    if (!description && description.trim() === '') {
+    if (!description || description.trim() === '') {
       errMsg = 'Menu Description is Required';
     }
     if (!description || description.length >= 250) {

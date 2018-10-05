@@ -8,8 +8,9 @@ class OrderController {
     pool.query(('SELECT * FROM orders'), (err, response) => {
       if (err) {
         res.status(500).send('Could not establish database connection');
-      } else if (response.rowCount > 0) {
-        const result = response.row;
+      }
+      if (response.rowCount > 0) {
+        const result = response.rows;
         res.status(200).json({
           result,
           status: 'Success',
