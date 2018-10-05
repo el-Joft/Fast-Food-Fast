@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 import pool from '../config/databaseConfig';
 // import config from '../../../config';
-import {} from 'dotenv/config';
 
 const createUsersTables = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
@@ -29,7 +28,7 @@ const createUsersTables = () => {
 
   const defaultAdmin = () => {
     const password = '123456';
-    const hashedPassword = bcrypt.hashSync(password, process.env.SALT);
+    const hashedPassword = bcrypt.hashSync(password, 10);
     const adminData = {
       role: 1,
       email: 'ottimothy@gmail.com',
