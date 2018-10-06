@@ -52,10 +52,11 @@ class Validation {
     let errMsg;
 
     if (!name) {
-      errMsg = 'Name cannot be empty';
-
+      errMsg = 'Name cannot be empty, please provide one';
+    }
     if (!menu) {
       return res.status(403).json({ errMsg: 'Please send valid datas' });
+
     }
    
     // if (!name && name.trim() === '') {
