@@ -52,7 +52,7 @@ class Validation {
     let errMsg;
 
     if (!name) {
-      errMsg = 'Name cannot be empty';
+      errMsg = 'Name cannot be empty, please provide one';
     }
     // if (!name && name.trim() === '') {
     //   errMsg = 'Name of the Menu is required';
