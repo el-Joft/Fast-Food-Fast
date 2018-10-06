@@ -35,6 +35,25 @@ describe('Test to get all Menus', () => {
           done();
         });
     });
+    it('should return 400 for a if a params is not complete', (done) => {
+      const data = {
+        // name: 'Lorem Ipsum',
+        description:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
+        image: 'path',
+        price: 3000,
+        categoryId: 2,
+        isAvailable: true,
+      };
+      chai.request(app)
+        .post('/api/v1/menus')
+        .send(data)
+        .set('token', token)
+        .end((error, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
   });
 
   it('should return 200 for a successfully creating a Menu', (done) => {
