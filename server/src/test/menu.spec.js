@@ -35,6 +35,29 @@ describe('Test to get all Menus', () => {
           done();
         });
     });
+    it('should return 200 for updating a menu successfully', (done) => {
+      const data = {
+        name: 'Lorem Ipsum',
+        description:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
+        image: 'path',
+        price: 3000,
+        categoryId: 2,
+        isAvailable: true,
+      };
+      chai
+        .request(app)
+        .put(`/api/v1/menus/${menuID}`)
+        .send(data)
+        .set('token', token)
+        .end((err, res) => {
+          // menuID = res.body.result.id;
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.equal('Menu was updted successfully');
+          expect(res.body).to.be.an('object');
+          done();
+        });
+    });
     it('should return 400 for a if a params is not complete', (done) => {
       const data = {
         // name: 'Lorem Ipsum',
@@ -54,30 +77,51 @@ describe('Test to get all Menus', () => {
           done();
         });
     });
-  });
 
-  it('should return 200 for a successfully creating a Menu', (done) => {
-    const data = {
-      name: 'Lorem Ipsum',
-      description:
+    it('should return 200 for a successfully creating a Menu', (done) => {
+      const data = {
+        name: 'Lorem Ipsum',
+        description:
         'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
-      image: 'path',
-      price: 3000,
-      categoryId: 2,
-      isAvailable: true,
-    };
-    chai
-      .request(app)
-      .post('/api/v1/menus')
-      .send(data)
-      .set('token', token)
-      .end((err, res) => {
-        secondMenuId = res.body.result.id;
-        expect(res).to.have.status(200);
-        expect(res.body.message).to.equal('Menu was successfully Created');
-        expect(res.body).to.be.an('object');
-        done();
-      });
+        image: 'path',
+        price: 3000,
+        categoryId: 2,
+        isAvailable: true,
+      };
+      chai
+        .request(app)
+        .post('/api/v1/menus')
+        .send(data)
+        .set('token', token)
+        .end((err, res) => {
+          secondMenuId = res.body.result.id;
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.equal('Menu was successfully Created');
+          expect(res.body).to.be.an('object');
+          done();
+        });
+    });
+    it('should return 500 if it cannot create a Menu', (done) => {
+      const data = {
+        name: 'Lorem Ipsum',
+        descrion:
+            'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
+        image: 'path',
+        price: 3000,
+        categoryId: 2,
+        isAvailable: true,
+      };
+      chai
+        .request(app)
+        .post('/api/v1/menus')
+        .send(data)
+        .set('token', token)
+        .end((err, res) => {
+          expect(res).to.have.status(500);
+
+          done();
+        });
+    });
   });
   describe('Test to create an Order', () => {
     it('should return 200 for a successfully creating an Order', (done) => {
@@ -116,6 +160,22 @@ describe('Test to get all Menus', () => {
           done();
         });
     });
+    it('should return 500 if cannot save data to the database', (done) => {
+      const data = {
+        menuid: secondMenuId,
+        orderedby: 1,
+        quantity: 2,
+        totalpri: 1999.99,
+      };
+      chai.request(app)
+        .post('/api/v1/orders')
+        .send(data)
+        .set('token', token)
+        .end((error, res) => {
+          expect(res).to.have.status(500);
+          done();
+        });
+    });
   });
 
   describe('Test to Update an Order', () => {
@@ -133,6 +193,22 @@ describe('Test to get all Menus', () => {
         .end((error, response) => {
           expect(response).to.have.status(200);
           expect(response.body).to.be.an('object');
+          done();
+        });
+    });
+    it('should return 500 if cannot update Order data to the database', (done) => {
+      const data = {
+        menuid: secondMenuId,
+        orderedby: 1,
+        quantity: 2,
+        totalpri: 1999.99,
+      };
+      chai.request(app)
+        .put(`/api/v1/orders/${firstOrder}`)
+        .send(data)
+        .set('token', token)
+        .end((error, res) => {
+          expect(res).to.have.status(500);
           done();
         });
     });
@@ -164,7 +240,7 @@ describe('Test to get all Menus', () => {
     });
   });
 
-  describe('Test for single order id', () => {
+  describe('Test for single menu id', () => {
     it('should return a menu', (done) => {
       chai
         .request(app)
@@ -178,7 +254,7 @@ describe('Test to get all Menus', () => {
   });
 
   /* valid character but not availiable */
-  describe('Check for invalid order Id', () => {
+  describe('Check for invalid menu Id', () => {
     it('should show a not found message', (done) => {
       chai
         .request(app)
@@ -221,6 +297,27 @@ describe('Test to get all Menus', () => {
         .set('token', token)
         .end((error, response) => {
           expect(response).to.have.status(404);
+          done();
+        });
+    });
+  });
+  describe('Test for authentication at all Menu endpoint', () => {
+    it('Should return 403 if the Admin User is not authenticated', (done) => {
+      const data = {
+        name: 'Lorem Ipsum',
+        description:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
+        image: 'path',
+        price: 3000,
+        categoryId: 2,
+        isAvailable: true,
+      };
+      chai
+        .request(app)
+        .post('/api/v1/menus')
+        .send(data)
+        .end((err, res) => {
+          expect(res).to.have.status(403);
           done();
         });
     });
