@@ -22,23 +22,7 @@ class OrderController {
       }
     });
   }
-
-  static placeAnOrder(req, res) {
-    const {
-      menuid,
-      orderedby,
-      quantity,
-      totalprice,
-    } = req.body;
-
-    const values = [
-      menuid,
-      orderedby,
-      quantity,
-      totalprice,
-    ];
-
-    // callback
+  
     pool.query(orderText, values, (err, response) => {
       if (err) {
         console.log(err.stack);
