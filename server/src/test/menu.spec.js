@@ -37,6 +37,7 @@ describe('Test to get all Menus', () => {
         });
     });
   });
+
   it('should return 200 for a successfully creating a Menu', (done) => {
     const data = {
       name: 'Lorem Ipsum',
@@ -77,6 +78,23 @@ describe('Test to get all Menus', () => {
           expect(res).to.have.status(201);
           expect(res.body.message).to.equal('Order was successfully made');
           expect(res.body).to.be.an('object');
+          done();
+        });
+    });
+
+    it('should return 400 for a if a params is not complete', (done) => {
+      const data = {
+      // menuid: secondMenuId,
+        orderedby: 1,
+        quantity: 2,
+        totalprice: 1999.99,
+      };
+      chai.request(app)
+        .post('/api/v1/orders')
+        .send(data)
+        .set('token', token)
+        .end((error, res) => {
+          expect(res).to.have.status(401);
           done();
         });
     });
