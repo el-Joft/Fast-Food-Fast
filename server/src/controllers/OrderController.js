@@ -7,7 +7,7 @@ class OrderController {
     // pool.query(findAllOrder('*', 'orders'), (err, response) => {
     pool.query(('SELECT * FROM orders'), (err, response) => {
       if (err) {
-        res.status(500).send('Could not establish database connection');
+        res.status(500).json('Could not establish database connection');
       } else if (response.rowCount > 0) {
         const result = response.row;
         res.status(200).json({
@@ -21,7 +21,24 @@ class OrderController {
         });
       }
     });
-  
+  }
+
+  static placeAnOrder(req, res) {
+    const {
+      menuid,
+      orderedby,
+      quantity,
+      totalprice,
+    } = req.body;
+
+    const values = [
+      menuid,
+      orderedby,
+      quantity,
+      totalprice,
+    ];
+
+    // callback
     pool.query(orderText, values, (err, response) => {
       if (err) {
         console.log(err.stack);
