@@ -8,8 +8,9 @@ class OrderController {
     pool.query(('SELECT * FROM orders'), (err, response) => {
       if (err) {
         res.status(500).send('Could not establish database connection');
-      } else if (response.rowCount > 0) {
-        const result = response.row;
+      }
+      if (response.rowCount > 0) {
+        const result = response.rows;
         res.status(200).json({
           result,
           status: 'Success',
@@ -28,31 +29,43 @@ class OrderController {
       menuid,
       orderedby,
       quantity,
-      totalprice,
     } = req.body;
 
-    const values = [
-      menuid,
-      orderedby,
-      quantity,
-      totalprice,
-    ];
-
-    // callback
-    pool.query(orderText, values, (err, response) => {
+    pool.query(find('*', 'menus', 'id', menuid), (err, data) => {
       if (err) {
-        console.log(err.stack);
-        return res.status(500).json({
-          message: 'Could not successfully create an Order',
-          error: err.stack,
-        });
+        res.status(500).send('Could not establish database connection');
+      } else {
+        const result = data.rows[0];
+        if (result) {
+          const orderPrice = result.price;
+          const totalprice = orderPrice;
+          const values = [
+            menuid,
+            orderedby,
+            quantity,
+            totalprice,
+          ];
+          // callback
+          pool.query(orderText, values, (error, response) => {
+            if (error) {
+              return res.status(500).json({
+                message: 'Could not successfully create an Order',
+                error: err.stack,
+              });
+            }
+            const results = response.rows[0];
+            return res.status(201).json({
+              results,
+              status: 'Success',
+              message: 'Order was successfully made',
+            });
+          });
+        } else {
+          res.status(404).json({
+            message: 'Order with the Menu Id not found',
+          });
+        }
       }
-      const result = response.rows[0];
-      return res.status(201).json({
-        result,
-        status: 'Success',
-        message: 'Order was successfully made',
-      });
     });
   }
 
@@ -108,6 +121,43 @@ class OrderController {
         }
       });
     }
+  }
+
+  static adminUpdateOrderStatus(req, res) {
+    const { id } = req.params;
+    if (isNaN(id)) {
+      res.status(400).json({ message: 'Order Id is Invalid' });
+    }
+    pool.query(find('*', 'orders', 'id', id), (err, response) => {
+      if (err) {
+        res.status(500).send('Could not establish database connection');
+      } else {
+        const result = response.rows[0];
+        if (result) {
+          const {
+            status,
+          } = req.body;
+          const value = status;
+          pool.query(`
+          UPDATE orders SET status = '${value}' WHERE id = ${id} RETURNING *`, (error, responses) => {
+            if (error) {
+              return res.status(500).send('Could not establish database connection');
+            }
+            const order = responses.rows[0];
+            return res.status(200).json({
+              order,
+              status: 'Success',
+              message: 'Your Order',
+            });
+          });
+        } else {
+          return res.status(404).json({
+
+            message: 'Order with the Id not found',
+          });
+        }
+      }
+    });
   }
 
   static updateAnOrderStatus(req, res) {
