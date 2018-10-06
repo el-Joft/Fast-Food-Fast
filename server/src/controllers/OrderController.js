@@ -21,7 +21,6 @@ class OrderController {
         });
       }
     });
-  }
   
     pool.query(orderText, values, (err, response) => {
       if (err) {
