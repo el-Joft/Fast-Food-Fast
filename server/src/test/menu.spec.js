@@ -102,27 +102,27 @@ describe('Test to get all Menus', () => {
           done();
         });
     });
-    it('should return 500 if it cannot create a Menu', (done) => {
-      const data = {
-        name: 'Lorem Ipsum',
-        descrion:
-            'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
-        image: 'path',
-        price: 3000,
-        categoryId: 2,
-        isAvailable: true,
-      };
-      chai
-        .request(app)
-        .post('/api/v1/menus')
-        .send(data)
-        .set('token', token)
-        .end((err, res) => {
-          expect(res).to.have.status(500);
+    // it('should return 500 if it cannot create a Menu', (done) => {
+    //   const data = {
+    //     name: 'Lorem Ipsum',
+    //     descrion:
+    //         'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
+    //     image: 'path',
+    //     price: 3000,
+    //     categoryId: 2,
+    //     isAvailable: true,
+    //   };
+    //   chai
+    //     .request(app)
+    //     .post('/api/v1/menus')
+    //     .send(data)
+    //     .set('token', token)
+    //     .end((err, res) => {
+    //       expect(res).to.have.status(500);
 
-          done();
-        });
-    });
+    //       done();
+    //     });
+    // });
   });
   describe('Test to create an Order', () => {
     it('should return 200 for a successfully creating an Order', (done) => {
@@ -301,27 +301,6 @@ describe('Test to get all Menus', () => {
         .set('token', token)
         .end((error, response) => {
           expect(response).to.have.status(404);
-          done();
-        });
-    });
-  });
-  describe('Test for authentication at all Menu endpoint', () => {
-    it('Should return 403 if the Admin User is not authenticated', (done) => {
-      const data = {
-        name: 'Lorem Ipsum',
-        description:
-          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
-        image: 'path',
-        price: 3000,
-        categoryId: 2,
-        isAvailable: true,
-      };
-      chai
-        .request(app)
-        .post('/api/v1/menus')
-        .send(data)
-        .end((err, res) => {
-          expect(res).to.have.status(403);
           done();
         });
     });
