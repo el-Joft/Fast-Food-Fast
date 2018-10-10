@@ -2,41 +2,39 @@ class Validation {
   static createOrUpdateOrderValidation(req, res, next) {
     const order = req.body;
     const {
-      menuId,
-      orderedBy,
+      menuid,
+      orderedby,
       quantity,
       // totalPrice,
     } = order;
-    let errMsg;
-    if (!menuId) {
-      errMsg = 'Menu Id is required';
+    const errMsg = [];
+    if (!menuid) {
+      errMsg.push('Menu Id is required');
     }
 
-    if (!orderedBy) {
-      errMsg = 'The user Id ordering is required';
+    if (!orderedby) {
+      errMsg.push('The user making the order is required');
+    } else if (isNaN(orderedby)) {
+      errMsg.push('Please Enter a Number for the User making an Order');
     }
     if (!quantity) {
-      errMsg = 'Quantity of food item is required';
+      errMsg.push('Quantity of food item is required');
+    } else if (quantity < 1) {
+      errMsg.push('Quantity must cannot be less than 1');
+    } else if (quantity >= 100) {
+      errMsg.push('Sorry, You cannot Order more than 99 items');
+    } else if (isNaN(quantity)) {
+      errMsg.push('Quantity must be a Number, try again');
     }
 
-    // if (!totalPrice) {
-    //   errMsg = 'Total cost of item is required';
-    // }
-    if (quantity < 1) {
-      errMsg = 'Quantity must cannot be less than 1';
+    if (errMsg.length === 0) {
+      // array empty or does not exist
+      next();
+    } else {
+      res.status(400).json({
+        message: errMsg,
+      });
     }
-
-    if (errMsg) {
-      res.status(401).json(errMsg);
-    }
-    // if (isNaN(menuId)) {
-    //   res.status(400).send('MenuId is Invalid');
-    // }
-    if (isNaN(orderedBy)) {
-      res.status(400).send('UserId is Invalid');
-    }
-
-    next();
   }
 
   static createOrUpdateMenuValidation(req, res, next) {
@@ -49,45 +47,38 @@ class Validation {
       categoryId,
       isAvailable,
     } = menu;
-    let errMsg;
+    const errMsg = [];
 
 
-    if (!name && name.trim() === '') {
-      errMsg = 'Name of the Menu is required';
-    }
-    if (name.length >= 50) {
-      errMsg = 'Name Field cannot be more than 50 characters';
+    if (!name || name.trim() === '') {
+      errMsg.push('Name of the Menu is required');
+    } else if (name.length >= 50) {
+      errMsg.push('Name Field cannot be more than 50 characters');
     }
 
-    if (!description && description.trim() === '') {
-      errMsg = 'Menu Description is Required';
-    }
-    if (description.length >= 250) {
-      errMsg = 'Description Field cannot be more than 250 characters';
+    if (!description || description.trim() === '') {
+      errMsg.push('Menu Description is Required');
+    } else if (description.length >= 250) {
+      errMsg.push('Description Field cannot be more than 250 characters');
     }
     if (!price) {
-      errMsg = 'Price is Required';
+      errMsg.push('Price is Required');
+    } else if (isNaN(price)) {
+      errMsg.push('Price must be a Number');
     }
+
     if (!categoryId) {
-      errMsg = 'Specify the Category of the Menu';
+      errMsg.push('Specify the Category of the Menu');
+    } else if (isNaN(categoryId)) {
+      errMsg.push('Category Id is invalid');
     }
 
-    // if (errMsg) {
-    //   res.status(404).send(errMsg);
-    // }
-
-    if (isNaN(categoryId)) {
-      res.status(400).send('Category is invalid');
-    }
-    if (isNaN(price)) {
-      res.status(404).send('Price must be a Number');
-    }
-    if (errMsg) {
+    if (errMsg.length === 0) {
+      next();
+    } else {
       res.status(400).json({
         message: errMsg,
       });
-    } else {
-      next();
     }
   }
 
@@ -95,120 +86,112 @@ class Validation {
   static createUserValidation(req, res, next) {
     const usersDetails = req.body;
     const {
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       email,
       phone,
       password,
-      confirmPassword,
       address,
       city,
-      zipCode,
+      zipcode,
     } = usersDetails;
-    let errMsg;
+    const errMsg = [];
 
     /* Check for first name */
-    if (!firstName || firstName.trim() === '' && ((typeof firstName) !== 'string')) {
-      errMsg = 'First name is required.';
-    }
-    if (firstName.length >= 50) {
-      errMsg = 'FirstName Character cannot be more than 50';
+    if (!firstname || firstname.trim() === '' && ((typeof firstname) !== 'string')) {
+      errMsg.push('First name is required.');
+    } else if (firstname.length >= 50) {
+      errMsg.push('FirstName Character cannot be more than 50');
     }
     /* check if last name is valid */
-    if (!lastName || lastName.trim() === '' && typeof (lastName !== 'string')) {
-      errMsg = 'Last name is required.';
-    }
-    if (lastName.length >= 50) {
-      errMsg = 'LastName Character cannot be more than 50';
+    if (!lastname || lastname.trim() === '' && typeof (lastname !== 'string')) {
+      errMsg.push('Last name is required.');
+    } else if (lastname.length >= 50) {
+      errMsg.push('lastname Character cannot be more than 50');
     }
     /* Validate email */
     /* regular expression for testing email address */
     let emailRegex = /[^\s]*@[a-z0-9.-]*/i;
     /* test email address */
     emailRegex = emailRegex.test(String(email).toLowerCase());
-
-    if (!emailRegex) {
-      errMsg = 'Invalid Email Address';
+    if (!email) {
+      errMsg.push('Email is required');
+    } else if (!emailRegex) {
+      errMsg.push('Invalid Email Address');
     }
 
     /* Check for phone number  */
     if (!phone || phone.trim() === '' && (typeof phone !== 'string')) {
-      errMsg = 'Phone cannot be empty';
-    }
-    if (phone.length >= 20) {
-      errMsg = 'Phone character cannot be more than 20';
+      errMsg.push('Phone cannot be empty');
+    } else if (phone.length >= 20) {
+      errMsg.push('Phone character cannot be more than 20');
     }
 
     /* Check for password */
     if (!password || password.trim().length < 6 && (typeof password !== 'string')) {
-      errMsg = 'Password cannot be less than six characters';
-    }
-    if (password.length >= 25) {
-      errMsg = 'Password Character cannot be more than 25';
+      errMsg.push('Password cannot be less than six characters');
+    } else if (password.length >= 25) {
+      errMsg.push('Password Character cannot be more than 25');
     }
 
-    /* check if password is matching  */
-    if (!confirmPassword || confirmPassword !== password) {
-      errMsg = 'Password does not match';
-    }
+    // /* check if password is matching  */
+    // if (!confirmPassword || confirmPassword !== password) {
+    //   errMsg = 'Password does not match';
+    // }
 
     /* check for address  */
     if (!address || address.trim() === '' && (typeof address !== 'string')) {
-      errMsg = 'Address field cannot be empty';
-    }
-    if (address.length >= 100) {
-      errMsg = 'Adress characters cannot be more than 200';
+      errMsg.push('Address field cannot be empty');
+    } else if (address.length >= 100) {
+      errMsg.push('Adress characters cannot be more than 200');
     }
 
     /* Check for city */
     if (!city || city.trim() === '' && typeof (city !== 'string')) {
-      errMsg = 'City is empty or invalid';
-    }
-    if (city.length >= 20) {
-      errMsg = 'City characters cannot be more than 20';
+      errMsg.push('City is empty');
+    } else if (city.length >= 20) {
+      errMsg.push('City characters cannot be more than 20');
     }
 
     /* Check for zipCode */
-    if (!zipCode || zipCode.trim() === '' && (typeof (zipCode !== 'string'))) {
-      errMsg = 'Zip Code is required';
+    if (!zipcode || zipcode.trim() === '' && (typeof (zipcode !== 'string'))) {
+      errMsg.push('Zip Code is required');
     }
-    if (errMsg) {
+    if (errMsg.length === 0) {
+      next();
+    } else {
       res.status(400).json({
         message: errMsg,
       });
-    } else {
-      next();
     }
   }
 
   static loginUserValidation(req, res, next) {
     const { email, password } = req.body;
-    let errMsg;
+    const errMsg = [];
 
     /* regular expression for testing email address */
     let emailRegex = /[^\s]*@[a-z0-9.-]*/i;
     /* test email address */
     emailRegex = emailRegex.test(String(email).toLowerCase());
     if (!emailRegex) {
-      errMsg = 'Email or password is Incorrect';
-    }
-    if (email.length >= 50) {
-      errMsg = 'Email Characters is too long';
+      errMsg.push('Email or password is Incorrect');
+    } else if (email.length >= 50) {
+      errMsg.push('Email Characters is too long');
     }
 
     /* Check for password */
     if (!password || typeof password !== 'string') {
-      errMsg = 'Email or password is incorrect';
+      errMsg.push('Email or password is incorrect');
+    } else if (password.length >= 20) {
+      errMsg.push('Password characters cannot be more than 20');
     }
-    if (password.length >= 20) {
-      errMsg = 'Password characters cannot be more than 20';
-    }
-    if (errMsg) {
+    if (errMsg.length === 0) {
+      next();
+    } else {
       res.status(400).json({
         message: errMsg,
       });
-    } else {
-      next();
     }
   }
 }

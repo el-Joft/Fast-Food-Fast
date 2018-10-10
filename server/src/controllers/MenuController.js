@@ -124,7 +124,7 @@ class MenuController {
                 res.status(200).json({
                   results,
                   status: 'Success',
-                  message: 'Your Order',
+                  message: 'Menu was updated successfully',
                 });
               }
             });
