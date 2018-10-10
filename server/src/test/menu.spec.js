@@ -1,7 +1,5 @@
 import chai, { assert, expect } from 'chai';
 import chaiHttp from 'chai-http';
-
-import { log } from 'util';
 import app from '../index';
 
 chai.use(chaiHttp);
@@ -54,7 +52,7 @@ describe('Test to get all Menus', () => {
         .end((err, res) => {
           // menuID = res.body.result.id;
           expect(res).to.have.status(200);
-          expect(res.body.message).to.equal('Menu was updted successfully');
+          expect(res.body.message).to.equal('Menu was updated successfully');
           expect(res.body).to.be.an('object');
           done();
         });
@@ -130,7 +128,7 @@ describe('Test to get all Menus', () => {
         menuid: secondMenuId,
         orderedby: 1,
         quantity: 2,
-        totalprice: 1999.99,
+        totalprice: 1999,
       };
       chai.request(app)
         .post('/api/v1/orders')

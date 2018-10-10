@@ -122,22 +122,29 @@ class OrderController {
         const result = response.rows[0];
         if (result) {
           const {
-            menuid,
+
+            menuId,   
             orderedby,
             quantity,
             totalprice,
           } = req.body;
           const values = [
-            menuid,
+            menuId,
             orderedby,
             quantity,
             totalprice,
           ];
           pool.query(`
-            UPDATE orders SET menuid = $1, orderedby= $2, quantity = $3, totalprice = $4 WHERE id = ${id} RETURNING *`, values, (error, responses) => {
+            UPDATE orders SET menuId = $1, orderedby= $2, quantity = $3, totalprice = $4 WHERE id = ${id} returning *`, values, (error, responses) => {
             if (error) {
-              return res.status(500).send('Could not establish database connection');
-            }
+              res.status(500).send('Could not establish database connection');
+            } else {
+              const order = responses.rows[0];
+              res.status(200).json({
+                order,
+                status: 'Success',
+                message: 'Your Order',
+              });
             const order = responses.rows[0];
             return res.status(200).json({
               order,
@@ -154,6 +161,9 @@ class OrderController {
       }
     });
   }
+  // static adminUpdateOrder(req ,res){
+    
+  // }
 
   static deleteAnOrder(req, res) {
     const { id } = req.params;

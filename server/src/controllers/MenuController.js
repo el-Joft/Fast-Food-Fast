@@ -75,7 +75,8 @@ class MenuController {
               message: 'Your Menu',
             });
           } else {
-            res.status(404).json({
+            res.json({
+              status: 404,
               message: 'Order with the Id not found',
             });
           }
@@ -123,7 +124,7 @@ class MenuController {
                 res.status(200).json({
                   results,
                   status: 'Success',
-                  message: 'Menu was updted successfully',
+                  message: 'Menu was updated successfully',
                 });
               }
             });
