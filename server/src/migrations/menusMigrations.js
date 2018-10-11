@@ -23,7 +23,6 @@ const createMenusTables = () => {
     })
     .catch((err) => {
       console.log(err);
-     
     });
 };
 
