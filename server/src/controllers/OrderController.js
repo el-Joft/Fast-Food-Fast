@@ -7,7 +7,7 @@ class OrderController {
     // pool.query(findAllOrder('*', 'orders'), (err, response) => {
     pool.query(('SELECT * FROM orders'), (err, response) => {
       if (err) {
-        res.status(500).send('Could not establish database connection');
+        res.status(500).json('Could not establish database connection');
       } else if (response.rowCount > 0) {
         const result = response.row;
         res.status(200).json({
@@ -42,18 +42,17 @@ class OrderController {
     pool.query(orderText, values, (err, response) => {
       if (err) {
         console.log(err.stack);
-        res.status(500).json({
+        return res.status(500).json({
           message: 'Could not successfully create an Order',
           error: err.stack,
         });
-      } else {
-        const result = response.rows[0];
-        res.json({
-          result,
-          status: 'Success',
-          message: 'Order was successfully made',
-        });
       }
+      const result = response.rows[0];
+      return res.status(201).json({
+        result,
+        status: 'Success',
+        message: 'Order was successfully made',
+      });
     });
   }
 
@@ -123,7 +122,8 @@ class OrderController {
         const result = response.rows[0];
         if (result) {
           const {
-            menuId,
+
+            menuId,   
             orderedby,
             quantity,
             totalprice,
@@ -145,10 +145,15 @@ class OrderController {
                 status: 'Success',
                 message: 'Your Order',
               });
-            }
+            const order = responses.rows[0];
+            return res.status(200).json({
+              order,
+              status: 'Success',
+              message: 'Your Order',
+            });
           });
         } else {
-          res.status(404).json({
+          return res.status(404).json({
 
             message: 'Order with the Id not found',
           });

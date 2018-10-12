@@ -14,6 +14,7 @@ const createOrderTables = () => {
       FOREIGN KEY (orderedby) REFERENCES users (id),
       quantity   INT NOT NULL,
       totalPrice MONEY NOT NULL,
+      status VARCHAR(100) DEFAULT 'NEW',
       created_date TIMESTAMP DEFAULT NOW(),
       modified_date TIMESTAMP DEFAULT NOW()
     )`;
