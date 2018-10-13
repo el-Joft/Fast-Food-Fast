@@ -44,7 +44,7 @@ class Validation {
       description,
       image,
       price,
-      categoryId,
+      categoryid,
       isAvailable,
     } = menu;
     const errMsg = [];
@@ -67,9 +67,9 @@ class Validation {
       errMsg.push('Price must be a Number');
     }
 
-    if (!categoryId) {
+    if (!categoryid) {
       errMsg.push('Specify the Category of the Menu');
-    } else if (isNaN(categoryId)) {
+    } else if (isNaN(categoryid)) {
       errMsg.push('Category Id is invalid');
     }
 
@@ -82,6 +82,25 @@ class Validation {
     }
   }
 
+  static createCategoryValidation(req, res, next) {
+    const category = req.body;
+    const {
+      name,
+    } = category;
+    const errMsg = [];
+    if (!name || name.trim() === '' && ((typeof name) !== 'string')) {
+      errMsg.push('Category Name is required');
+    } else if (name.length >= 50) {
+      errMsg.push('Category Name cannot be more than 40 characters');
+    }
+    if (errMsg.length === 0) {
+      next();
+    } else {
+      res.status(400).json({
+        message: errMsg,
+      });
+    }
+  }
 
   static createUserValidation(req, res, next) {
     const usersDetails = req.body;

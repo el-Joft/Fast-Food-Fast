@@ -18,7 +18,7 @@ describe('Test to get all Menus', () => {
           'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
         image: 'path',
         price: 3000,
-        categoryId: 2,
+        categoryid: 2,
         isAvailable: true,
       };
       chai
@@ -64,7 +64,7 @@ describe('Test to get all Menus', () => {
           'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
         image: 'path',
         price: 3000,
-        categoryId: 2,
+        categoryid: 2,
         isAvailable: true,
       };
       chai.request(app)
@@ -84,7 +84,7 @@ describe('Test to get all Menus', () => {
         'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
         image: 'path',
         price: 3000,
-        categoryId: 2,
+        categoryid: 2,
         isAvailable: true,
       };
       chai

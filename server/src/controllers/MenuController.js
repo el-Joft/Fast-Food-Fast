@@ -10,8 +10,8 @@ class MenuController {
         const result = response.rows;
         res.status(200).json({
           result,
-          status: 'Success',
-          message: 'Your Menus',
+          // status: 'Success',
+          // message: 'Your Menus',
         });
       } else {
         res.status(404).json({
@@ -27,7 +27,7 @@ class MenuController {
       description,
       image,
       price,
-      categoryId,
+      categoryid,
       isAvailable,
     } = req.body;
 
@@ -37,14 +37,14 @@ class MenuController {
       description,
       image,
       price,
-      categoryId,
+      categoryid,
       isAvailable,
     ];
     pool.query(menuText, values, (err, response) => {
       if (err) {
         console.log(err.stack);
         res.status(500).json({
-          message: 'Could not successfully create an Order',
+          message: 'Could not successfully create a Menu',
           error: err.stack,
         });
       } else {
@@ -77,7 +77,7 @@ class MenuController {
           } else {
             res.json({
               status: 404,
-              message: 'Order with the Id not found',
+              message: 'Menu with the Id not found',
             });
           }
         }
@@ -88,7 +88,7 @@ class MenuController {
   static updateAMenuStatus(req, res) {
     const { id } = req.params;
     if (isNaN(id)) {
-      res.status(400).json({ message: 'Order Id is Invalid' });
+      res.status(400).json({ message: 'Menu Id is Invalid' });
     } else {
       pool.query(find('*', 'menus', 'id', id), (err, response) => {
         if (err) {
@@ -102,7 +102,7 @@ class MenuController {
               description,
               image,
               price,
-              categoryId,
+              categoryid,
               isAvailable,
             } = req.body;
             const values = [
@@ -110,7 +110,7 @@ class MenuController {
               description,
               image,
               price,
-              categoryId,
+              categoryid,
               isAvailable,
             ];
             pool.query(`

@@ -436,6 +436,11 @@
           "type": "integer",
           "format": "int64"
         },
+        "role": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User role"
+        },
         "firstName": {
           "type": "string"
         },
@@ -453,11 +458,6 @@
         },
         "zipcode" : {
           "type" : "string"
-        },
-        "role": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User role"
         },
         "city" : {
           "type" : "string"

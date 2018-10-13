@@ -12,8 +12,8 @@ class OrderController {
         const result = response.row;
         res.status(200).json({
           result,
-          status: 'Success',
-          message: 'Your Order',
+          // status: 'Success',
+          // message: 'Your Order',
         });
       } else {
         res.status(404).json({
