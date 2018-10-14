@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha --compilers js:babel-register \"./server/src/test/*.spec.js\" --exit ",
+    "test:create": "psql -U postgres -d test-fast-food-fast -f ./server/src/config/test/create.sql",
+    "test:drop": "psql -U postgres -d test-fast-food-fast -f ./server/src/config/test/drop.sql",
+    "test:local": "SET NODE_ENV=test npm run test:create && npm run test && npm run test:drop",
     "dev": "nodemon --exec babel-node ./server/src/index.js",
     "build": "./node_modules/.bin/babel ./server/src -d build",
     "prestart": "npm run build",
     "start": "node ./build/index.js",
     "coverage": "nyc report --reporter=lcov --reporter=text-lcov | coveralls",
-    "migration": "nodemon --exec babel-node ./server/src/migrations/index.js",
-    "drop" : "nodemon --exec babel-node ./server/src/migrations/drop.js"
+    "migration": "psql -U postgres -d Fast-Food-Fast -f ./server/src/config/test/create.sql",
+    "drop": "psql -U postgres -d Fast-Food-Fast -f ./server/src/config/test/drop.sql"
   },
   "engines": {
     "node": "8.9.4"
@@ -43,9 +46,11 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "swagger-ui-express": "^4.0.1"
   }
 }

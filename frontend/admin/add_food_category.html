@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Fast-Food-Fast | A food delivery service app for a restaurant.</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../assets/css/style.css">
+    </head>
+    <body>
+        <header>
+            <div>
+                <div class="header-1">
+                    
+                   
+                <nav>
+                    <ul class="nav-bar">
+                        <li><a href="index.html">All Items</a></li>
+                        <li><a href="orders.html">User Orders</a></li>
+                        <li><a href="">Order History</a></li>
+                        
+                       
+                        
+                        <li class="dropdown">
+                            
+                            <a href="" class="dropbtn">
+                                Hello, Admin
+                                <span><img src="../assets/img/icons/profile.png" alt=""></span>
+                            </a>
+                            <div class="dropdown-content">
+                              <a href="#">Profile</a>
+                              <a href="#">Edit Profile</a>
+                              <a href="#">LogOut</a>
+                            </div>
+                        
+                    </li>
+                    </ul>
+                </nav>
+                
+            </div>
+        </header>
+ 
+        <section>
+                <div>
+                    <form>
+                        <ul class="form-group">
+                            
+                            <li>
+                                <label>Category Name <span class="required">*</span></label>
+                                <input type="text" name="name" class="form-control field-long" required />
+                            </li>
+                            <li>
+                                <label>Description<span class="required">*</span></label>
+                                <textarea name="description" id="description" rows="3" required="required" class="field-long field-textarea"></textarea>
+                            </li>
+                            
+                            <li>
+                                <input type="submit" value="Submit" />
+                            </li>
+                            
+                        </ul>
+
+                    </form>
+                       
+                </div>
+                <footer>
+                    <div class="footer">
+                        <div class="footer-navigation"><a href="../index.html">Go to Main page</a></div>
+                        <h5 class="footer-text">&copy; <span id="year"></span> Andela bootcamp project </h5>
+                        
+                    </div>
+                    
+                </footer>
+            </section>
+        <script src="../assets/js/app.js"></script>
+        <script>
+            window.onload = () => {
+                app.bannerImages();
+                app.getCurrentYear();
+            }
+        </script>
+    </body>
+</html>
