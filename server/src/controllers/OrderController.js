@@ -122,8 +122,7 @@ class OrderController {
         const result = response.rows[0];
         if (result) {
           const {
-
-            menuId,   
+            menuId,
             orderedby,
             quantity,
             totalprice,
@@ -145,15 +144,10 @@ class OrderController {
                 status: 'Success',
                 message: 'Your Order',
               });
-            const order = responses.rows[0];
-            return res.status(200).json({
-              order,
-              status: 'Success',
-              message: 'Your Order',
-            });
+            }
           });
         } else {
-          return res.status(404).json({
+          res.status(404).json({
 
             message: 'Order with the Id not found',
           });

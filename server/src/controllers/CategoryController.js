@@ -71,7 +71,28 @@ class CategoryController {
         }
       });
     }
-    
+  }
+
+  static getMenuCategory(req, res) {
+    const { id } = req.params;
+    if (isNaN(id)) {
+      res.status(400).json({ message: 'Category Id is Invalid' });
+    }
+    pool.query(find('*', 'menus', 'categoryid', id), (err, response) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Could not establish database connection');
+      } else {
+        const result = response.rows[0];
+        if (!result) {
+          res.status(404).json({
+            message: 'No category Found',
+          });
+        } else {
+          res.status(200).json({ result });
+        }
+      }
+    });
   }
 
   // static updateAMenuStatus(req, res) {
