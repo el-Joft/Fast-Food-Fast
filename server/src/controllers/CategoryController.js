@@ -71,6 +71,7 @@ class CategoryController {
         }
       });
     }
+    
   }
 
   // static updateAMenuStatus(req, res) {

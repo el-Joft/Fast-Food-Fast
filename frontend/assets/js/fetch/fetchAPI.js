@@ -14,7 +14,7 @@ class fetchAPI {
           // Examine the text in the response
           response.json()
             .then((data) => {
-              let output = '<div class="menu-section">';
+              let output = '';
               menuData = data.result;
               const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
 
@@ -23,16 +23,17 @@ class fetchAPI {
                 const descpt = menus.description;
                 // descpt.substring(0, 100 - ending.length);
                 output += `
-                <div class="menu-food">
-                   <h3>${menus.name}</h3>
-                   <p>${truncate(descpt, 15)}</p>
-                </div>
-                <div class="menu-price">
-                    <p><strike>N</strike>${menus.price}</p>
-                    <a href="checkout.html"> <span class="menu-order">Make Order</span></a>
-                </div>
-                
-            </div>`;
+                <div class="menu-section">
+                    <div class="menu-food">
+                        <h3>${menus.name}</h3>
+                        <p>${truncate(descpt, 15)}</p>
+                    </div>
+                    <div class="menu-price">
+                        <p><strike>N</strike>${menus.price}</p>
+                        <a href="checkout.html"> <span class="menu-order">Make Order</span></a>
+                    </div>
+                    
+                </div>`;
               });
               document.getElementById('menu-body').innerHTML = output;
             });
