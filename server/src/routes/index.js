@@ -29,7 +29,7 @@ const Routes = (router) => {
 
   router.route('/api/v1/menus')
     .get(MenuController.listAllMenus)
-    .post(isAdmin, ensureAutheticated, Validation.createOrUpdateMenuValidation, MenuController.createAMenu);
+    .post(Validation.createOrUpdateMenuValidation, MenuController.createAMenu);
 
   router.route('/api/v1/orders/:id')
     .get(ensureAutheticated, OrderController.fetchAnOrder)

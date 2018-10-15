@@ -83,7 +83,7 @@ class CategoryController {
         console.log(err);
         res.status(500).send('Could not establish database connection');
       } else {
-        const result = response.rows[0];
+        const result = response.rows;
         if (!result) {
           res.status(404).json({
             message: 'No category Found',
