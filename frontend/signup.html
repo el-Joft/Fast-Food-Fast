@@ -96,6 +96,7 @@
         </header>
  
         <section>
+            <div id="message"></div>
             <div>
                     <form>
                         <ul class="form-group">
@@ -119,7 +120,7 @@
                             </li>
                             <li>
                                 <label>Zip Code <span class="required">*</span></label>
-                                <input type="number" name="zip_code" class="form-control field-long" required />
+                                <input type="number" name="zipcode" class="form-control field-long" required />
                             </li>
                             <li>
                                 <label>Address <span class="required">*</span></label>
@@ -131,7 +132,7 @@
                             </li>
                             <li>
                                 <label>Confirm Password <span class="required">*</span></label>
-                                <input type="password" name="password" class="form-control field-long" required />
+                                <input type="password" name="confirmPassword" class="form-control field-long" required />
                             </li>
                             
                             <li>
@@ -151,16 +152,15 @@
 
         <footer>
             <div class="footer">
-
-                
-                    <div class="footer-navigation"><a href="admin/admin-login.html">Admin?... click here</a></div>
-                    <h5 class="footer-text">&copy; <span id="year"></span> Andela bootcamp project </h5>
-                </div>
+                <div class="footer-navigation"><a href="admin/admin-login.html">Admin?... click here</a></div>
+                <h5 class="footer-text">&copy; <span id="year"></span> Andela bootcamp project </h5>
+            </div>
                 
             </footer>
         </section>
         
         <script src="assets/js/app.js"></script>
+        <script src="assets/js/fetch/signup.js"></script>
         <script>
             window.onload = () => {
                 app.mobileNavbar();
