@@ -722,3 +722,19 @@ table,thead,tbody,tfoot,tr, td,th{
 .dropdown:hover .dropbtn {
     background-color: #42ce9f;
 }
+.message-success{
+    border: 1px solid #42ce9f;
+    color: #42ce9f;
+    text-align: center;
+    padding: 10px;
+    width:40%;
+    margin-top: 25px;
+}
+.message-failure{
+    border: 1px solid #ff0a10;
+    color: #ff0a10;
+    text-align: center;
+    padding: 10px;
+    width:40%;
+    margin-top: 25px;
+}
