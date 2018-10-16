@@ -16,7 +16,7 @@ class UserController {
         return res.status(500).send('Could not establish database connection');
       }
       if (response.rowCount > 0) {
-        return res.status(400).send('The Email Already Exist');
+        return res.status(400).json({ message: 'Email Already Exist' });
       }
       const values = [
         req.body.firstname,
