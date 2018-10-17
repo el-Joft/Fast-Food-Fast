@@ -12,7 +12,8 @@ const Routes = (router) => {
   router.post('/api/v1/auth/signup', Validation.createUserValidation, UserController.createUser);
   router.post('/api/v1/auth/login', Validation.loginUserValidation, UserController.loginUser);
 
-  router.get('/api/v1/:id/orders', OrderController.fetchAnOrderByUser);
+  router.get('/api/v1/users/:id/orders', ensureAutheticated, OrderController.fetchAnOrderByUser);
+  router.get('/api/v1/users/:id', isAdmin, ensureAutheticated, UserController.getAUser);
 
   router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

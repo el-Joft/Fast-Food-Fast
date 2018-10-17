@@ -21,7 +21,6 @@ CREATE TABLE category
 );
 
 
-
 CREATE TABLE menus
 (
   id SERIAL PRIMARY KEY,
@@ -29,7 +28,7 @@ CREATE TABLE menus
   description TEXT NOT NULL,
   image TEXT NULL,
   price INT NOT NULL,
-  categoryid INT NOT NULL,
+  categoryid INT,
   FOREIGN KEY (categoryid) REFERENCES category (id),
   isAvailable BOOLEAN NOT NULL,
   created_date TIMESTAMP DEFAULT NOW(),
@@ -45,7 +44,8 @@ CREATE TABLE orders
   orderedby INT NOT NULL,
   FOREIGN KEY (orderedby) REFERENCES users (id),
   quantity   INT NOT NULL,
-  totalprice MONEY NOT NULL,
+  status VARCHAR(50) DEFAULT 'NEW',
+  totalprice INT NOT NULL,
   created_date TIMESTAMP DEFAULT NOW(),
   modified_date TIMESTAMP DEFAULT NOW()
 );
