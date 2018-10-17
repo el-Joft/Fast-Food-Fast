@@ -9,7 +9,7 @@ class OrderController {
       if (err) {
         res.status(500).json('Could not establish database connection');
       } else if (response.rowCount > 0) {
-        const result = response.row;
+        const result = response.rows;
         res.status(200).json({
           result,
           // status: 'Success',

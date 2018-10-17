@@ -84,5 +84,30 @@ class UserController {
       }
     });
   }
+
+  static getAUser(req, res) {
+    const { id } = req.params;
+    if (isNaN(id)) {
+      res.status(400).json({ message: 'User Id is Invalid' });
+    } else {
+      pool.query(find('*', 'users', 'id', id), (err, response) => {
+        if (err) {
+          res.status(500).send('Could not establish database connection');
+        } else {
+          const result = response.rows[0];
+          if (result) {
+            res.json({
+              result,
+            });
+          } else {
+            res.json({
+              status: 404,
+              message: 'User with the Id not found',
+            });
+          }
+        }
+      });
+    }
+  }
 }
 export default UserController;

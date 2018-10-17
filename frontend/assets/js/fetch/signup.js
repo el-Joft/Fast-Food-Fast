@@ -40,10 +40,7 @@ const signup = () => {
           messageHTML.innerHTML = data.message;
           return null;
         }
-        localStorage.setItem('token', message.token);
-        console.log('====================================');
-        console.log(message.token);
-        console.log('====================================');
+        localStorage.setItem('token', data.token);
         // messageBox.classList.add('message-success');
         // messageBox.classList.remove('message-failure');
         // messageBox.innerHTML = 'Account created successfully';
