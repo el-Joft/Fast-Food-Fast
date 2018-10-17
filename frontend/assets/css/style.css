@@ -577,7 +577,9 @@ table,thead,tbody,tfoot,tr, td,th{
     padding: 1rem;
     /* width: 50%; */
 }
-
+.menu_links {
+    cursor: pointer;
+}
 
 .successful{
     text-align: center;
