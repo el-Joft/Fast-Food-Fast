@@ -13,6 +13,7 @@ class fetchAPI {
           response.json()
             .then((data) => {
               let output = '';
+              let adminMenu = '';
               menuData = data.result;
               const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
               let counter = 0;
@@ -89,6 +90,50 @@ class fetchAPI {
         console.log('Fetch Error :-S', err);
       });
   }
+
+  static getMenus() {
+    let menuData;
+    fetch('http://localhost:3000/api/v1/menus', { mode: 'cors' })
+      .then(
+        (response) => {
+          if (response.status !== 200) {
+            console.log(`Looks like there was a problem. Status Code: ${
+              response.status}`);
+            return;
+          }
+          // Examine the text in the response
+          response.json()
+            .then((data) => {
+              const output = '';
+              let adminMenu = '';
+              menuData = data.result;
+              const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
+              const counter = 0;
+              // console.log(truncate('The quick brown fox jumps over the lazy dog', 4));
+              menuData.forEach((menus) => {
+                const descpt = menus.description;
+                // descpt.substring(0, 100 - ending.length);
+                adminMenu += `
+                <tr>
+                <td>${menus.name}</td>
+                <td>${truncate(descpt, 15)}</td>
+                <td><strike>N</strike>${menus.price}</td>
+                <td>
+                    <div class="btn-normal"><a href="edit_food.html">Edit</a></div>
+                    <div class="btn-danger"><a href="">Delete</a></div>
+                </td>
+            </tr>
+                `;
+                document.getElementById('menu-table').innerHTML = adminMenu;
+              });
+            } )
+            .catch((err) => {
+              console.log('Fetch Error :-S', err);
+            });
+        },
+      );
+  }
 }
 fetchAPI.getAllMenus();
+fetchAPI.getMenus();
 fetchAPI.getCategory();

@@ -49,7 +49,7 @@ class MenuController {
         });
       } else {
         const result = response.rows[0];
-        res.status(200).json({
+        res.status(201).json({
           result,
           status: 'Success',
           message: 'Menu was successfully Created',
