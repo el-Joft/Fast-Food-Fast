@@ -28,31 +28,66 @@ class OrderController {
       menuid,
       orderedby,
       quantity,
-      totalprice,
     } = req.body;
 
-    const values = [
-      menuid,
-      orderedby,
-      quantity,
-      totalprice,
-    ];
+    // const values = [
+    //   menuid,
+    //   orderedby,
+    //   quantity,
+    //   totalprice,
+    // ];
 
     // callback
-    pool.query(orderText, values, (err, response) => {
+
+    pool.query(find('*', 'menus', 'id', menuid), (err, response) => {
       if (err) {
-        console.log(err.stack);
-        return res.status(500).json({
-          message: 'Could not successfully create an Order',
-          error: err.stack,
-        });
+        res.status(500).send('Could not establish database connection');
+      } else {
+        const results = response.rows[0];
+        if (results) {
+          pool.query(find('*', 'users', 'id', orderedby), (error, data) => {
+            if (error) {
+              res.status(500).send('Could not establish database connection');
+            } else {
+              const result = data.rows[0];
+              if (result) {
+                const totalprice = quantity * results.price;
+                const values = [
+                  menuid,
+                  orderedby,
+                  quantity,
+                  totalprice,
+                ];
+                
+                pool.query(orderText, values, (errMsg, order) => {
+                  if (errMsg) {
+                    return res.status(500).json({
+                      message: 'Could not successfully create an Order',
+                      error: errMsg.stack,
+                    });
+                  }
+                  const ordered = order.rows[0];
+                  return res.status(201).json({
+                    ordered,
+                    status: 'Success',
+                    message: 'Order was successfully made',
+                  });
+                });
+              } else {
+                res.json({
+                  status: 404,
+                  message: 'User with the Id not found',
+                });
+              }
+            }
+          });
+        } else {
+          res.json({
+            status: 404,
+            message: 'Menu with the Id not found',
+          });
+        }
       }
-      const result = response.rows[0];
-      return res.status(201).json({
-        result,
-        status: 'Success',
-        message: 'Order was successfully made',
-      });
     });
   }
 
@@ -156,7 +191,7 @@ class OrderController {
     });
   }
   // static adminUpdateOrder(req ,res){
-    
+
   // }
 
   static deleteAnOrder(req, res) {
