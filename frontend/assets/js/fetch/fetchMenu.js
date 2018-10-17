@@ -1,21 +1,38 @@
+const token = localStorage.getItem('token');
+
 // REFERENCES
 // https://stackoverflow.com/questions/19210665/getelementsbyclassname-is-not-working
 const editMenu = (id) => {
-  // const button = document.getElementById('shitt');
-  const elements = document.getElementsByClassName('menu_links');
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.replace(`/admin/edit_food.html?id=${id}`);
-    }, false);
-  }
-
-  // button.addEventListener('click', (e) => {
-  //   e.preventDefault();
-  //   // window.location.href = '/admin/edit_food.html';
-  //   window.location.replace(`/admin/edit_food.html?id=${menus.id}`);
-  // });
+  window.location.replace(`/admin/edit_food.html?id=${id}`);
 };
+
+const deleteMenu = (id) => {
+  fetch(`/api/v1/menus/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      token,
+    },
+    credentials: 'same-origin',
+  })
+    .then(
+      (response) => {
+        if (response.status !== 200) {
+          console.log(`Looks like there was a problem. Status Code: ${
+            response.status}`);
+          return;
+        }
+        response.json()
+          .then((data) => {
+            window.location.href = '/admin/index.html';
+          })
+          .catch((err) => {
+            console.log('Fetch Error :-S', err);
+          });
+      },
+    );
+};
+
 class fetchAPI {
   static getAllMenus() {
     let menuData;
@@ -136,7 +153,7 @@ class fetchAPI {
                 
                 <td>
                     <div class="menu_links btn-normal" onclick='editMenu(${menus.id})'>Edit</div>
-                    <div class="btn-danger"><a href="">Delete</a></div>
+                    <div class="delete menu_links btn-danger" id="deleteMenu" onclick='deleteMenu(${menus.id})' btn-danger">Delete</a></div>
                    
                     
                 </td>
