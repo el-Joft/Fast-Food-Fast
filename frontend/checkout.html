@@ -82,9 +82,9 @@
                         <li><a href="signin.html">Login</a></li>
                         <li><a href="signup.html">Sign Up</a></li>
                         <li class="cart-section">
-                            <a href="">
+                            <a href="checkout.html">
                                 <img src="assets/img/icons/cart.png" alt="">
-                                <span></span>Cart </span>
+                                <span></span>Cart(<span id="cartSystem"></span>)</span>
                             </a>
                         </li>
                     </ul>
@@ -102,29 +102,8 @@
                     </div>
                 </div>
                 
-                <div class="checkout">
-                    <div class="checkout-header">
-                        <div class="checkout-item top-header">
-                            
-                            <h3>Item</h3>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam.
-                                Ex, nobis quasi dolorum cupiditate possimus 
-                                minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?
-                            </p>
-                        </div>
-                        <div class="top-header checkout-quantity">
-                            <h3>Quantity</h3>
-                            <input type="number" class="checkout-input"/>
-                        </div>
-                        <div class="top-header checkout-price">
-                            <h3>Price</h3>
-                            <p><strike>N</strike>1999.99</p>
-                        </div>
-                        <div class="top-header checkout-subtotal">
-                            <h3>Sub-Total</h3>
-                            <p><strike>N</strike> 3999.99</p>
-                        </div>
-                    </div>
+                <div class="checkout" id="checkout">
+                   
                 </div>
                 <div class="more-order"><a href="menu.html">Make More Order</a></div>
                 <div>
@@ -139,7 +118,7 @@
                             <tbody>
                                 <tr>
                                 <td>Subtotal</td>
-                                <td><strike>N</strike>3999.99</td>
+                                <td class="addSubtotal" id="addSubtotal"></td>
                                 </tr>
                                 <tr>
                                 <td>Delivery Fee</td>
@@ -149,7 +128,7 @@
                             <tfoot>
                                 <tr>
                                 <td>Total</td>
-                                <td><strike>N</strike>6999.99</td>
+                                <td id="totalCost"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -157,8 +136,9 @@
                     </div>
                     
                     <div class="top-button">
-                        <div class="cancel-order "><a href="menu.html">Cancel Order</a></div>
-                        <div class="complete-order "><a href="success.html">Complete Order</a></div>
+                        <div class="cancel-order" onclick="cancelOrder()"><a href="menu.html">Cancel Order</a></div>
+                        <input type="hidden" id="menuId" name="menuId">
+                        <div onclick="makeOrder()" class="complete-order ">Complete Order</div>
                         
                     </div>
                 </div>
@@ -195,13 +175,14 @@
                 <div class="footer-navigation"><a href="admin/admin-login.html">Admin?... click here</a></div>
                 <h5 class="footer-text">&copy; <span id="year"></span> Andela bootcamp project </h5>
         </footer>
-
-        
         <script src="assets/js/app.js"></script>
+        <script src="assets/js/fetch/cart.js"></script>
         <script>
             window.onload = () => {
                 app.mobileNavbar();
                 app.getCurrentYear();
+                getMenuCart();
+                
             }
         </script>
     </body>

@@ -14,7 +14,6 @@ const Routes = (router) => {
 
   router.get('/api/v1/users/:id/orders', ensureAutheticated, OrderController.fetchAnOrderByUser);
   router.get('/api/v1/users/:id', isAdmin, ensureAutheticated, UserController.getAUser);
-
   router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   router.route('/api/v1/category')

@@ -36,7 +36,7 @@ const deleteMenu = (id) => {
 class fetchAPI {
   static getAllMenus() {
     let menuData;
-    fetch('http://localhost:3000/api/v1/menus', { mode: 'cors' })
+    fetch('/api/v1/menus')
       .then(
         (response) => {
           if (response.status !== 200) {
@@ -64,7 +64,7 @@ class fetchAPI {
                     </div>
                     <div class="menu-price">
                         <p><strike>N</strike>${menus.price}</p>
-                        <a href="checkout.html"> <span class="menu-order">Make Order</span></a>
+                        <button id="addCart" class="menu-order" onclick="addMenu(${menus.id})">Add to cart</button>
                     </div>
                     
                 </div>`;
@@ -84,7 +84,7 @@ class fetchAPI {
 
 
   static getCategory() {
-    fetch('http://localhost:3000/api/v1/menus', { mode: 'cors' })
+    fetch('/api/v1/menus')
       .then(
         (response) => {
           if (response.status !== 200) {
@@ -112,7 +112,7 @@ class fetchAPI {
                   </div>
                   <div class="menu-price">
                       <p><strike>N</strike>${menus.price}</p>
-                      <a href="checkout.html"> <span class="menu-order">Make Order</span></a>
+                      <button id="addCart" class="menu-order" onclick="addMenu(${menus.id})">Add to cart</button>
                   </div>
                   
               </div>`;
@@ -128,7 +128,7 @@ class fetchAPI {
 
   static getMenus() {
     let menuData;
-    fetch('http://localhost:3000/api/v1/menus', { mode: 'cors' })
+    fetch('api/v1/menus')
       .then(
         (response) => {
           if (response.status !== 200) {
