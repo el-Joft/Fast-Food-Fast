@@ -85,7 +85,7 @@
                         <li class="cart-section">
                             <a href="checkout.html">
                                 <img src="assets/img/icons/cart.png" alt="">
-                                <span></span>Cart </span>
+                                <span></span>Cart(<span id="cartSystem"></span>)</span>
                             </a>
                         </li>
                     </ul>
@@ -219,10 +219,12 @@
         
         <script src="assets/js/app.js"></script>
         <script src="assets/js/fetch/fetchMenu.js"></script>
+        <script src="assets/js/fetch/cart.js"></script>
         <script>
             window.onload = () => {
                 app.mobileNavbar();
                 app.getCurrentYear();
+                addToCart();
             }
         </script>
     </body>
