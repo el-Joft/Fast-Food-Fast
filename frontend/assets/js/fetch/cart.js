@@ -175,9 +175,13 @@ const getMenuCart = () => {
 const makeOrder = () => {
   const menuId = document.getElementById('menuId').value;
   const token = localStorage.getItem('token');
+  const quantity = document.getElementById('quantity').value;
 
   if (menuId.length === 1) {
-    const quantity = document.getElementById('quantity').value;
+    
+    console.log('====================================');
+    console.log(quantity);
+    console.log('====================================');
     if (!quantity) {
       alert('specify quantity joor');
       return console.log('please specify the quanity');

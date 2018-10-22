@@ -13,8 +13,8 @@
     "prestart": "npm run build",
     "start": "node ./build/index.js",
     "coverage": "nyc report --reporter=lcov --reporter=text-lcov | coveralls",
-    "migration": "psql -U postgres -d Fast-Food-Fast -f ./server/src/config/test/create.sql",
-    "drop": "psql -U postgres -d Fast-Food-Fast -f ./server/src/config/test/drop.sql"
+    "migration": "nodemon --exec babel-node ./server/src/migrations/create.js",
+    "drop": "nodemon --exec babel-node ./server/src/migrations/drop.js"
   },
   "engines": {
     "node": "8.9.4"

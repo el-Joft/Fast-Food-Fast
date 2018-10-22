@@ -1,6 +1,7 @@
+.env
 /build
 /node_modules
 .nyc_output
 .vscode
 /coverage
-.env
+
