@@ -173,27 +173,30 @@ const getMenuCart = () => {
 
 
 const makeOrder = () => {
-  const menuId = document.getElementById('menuId').value;
   const token = localStorage.getItem('token');
-  const quantity = document.getElementById('quantity').value;
-
-  if (menuId.length === 1) {
-    
-    console.log('====================================');
-    console.log(quantity);
-    console.log('====================================');
-    if (!quantity) {
-      alert('specify quantity joor');
-      return console.log('please specify the quanity');
-    }
-    const userid = getUser();
+  const quantity = document.getElementById('quantity1').value;
+  const messageHTML = document.getElementById('checkoutMessage');
+  const data = getLocalData('cart');
+  const result = JSON.parse(data);
+  const userid = getUser();
+  let menuid;
+  if (!quantity) {
+    messageHTML.classList.add('message-failure');
+    messageHTML.classList.remove('message-success');
+    messageHTML.innerHTML = 'Specify quantity joor';
+    return console.log('please specify the quanity');
+  }
+  if (result.length === 1) {
+    result.forEach((element) => {
+      menuid = element.id;
+    });
     const formData = {
-      menuid: menuId,
+      menuid,
       quantity,
       orderedby: userid,
     };
     const formdata = JSON.stringify(formData);
-    fetch('api/v1/orders', {
+    fetch('/api/v1/orders', {
       method: 'POST',
       body: formdata,
       headers: {
@@ -219,56 +222,106 @@ const makeOrder = () => {
       });
     return null;
   }
-  const data = getLocalData('cart');
-  const result = JSON.parse(data);
-
-  if (result === null || result.length < 1) {
-    console.log('sorry add some items to the cart');
-  } else if (result.length === 1) {
-    const userid = getUser();
-    let quantity;
-    let menuid;
-    result.forEach((element) => {
-      menuid = element.id;
-    });
-
-    const formData = {
-      menuid,
-      quantity,
-      orderedby: userid,
-    };
-    const formdata = JSON.stringify(formData);
-    fetch('api/v1/orders', {
-      method: 'POST',
-      body: formdata,
-      headers: {
-        'Content-Type': 'application/json',
-        token,
-      },
-      credentials: 'same-origin',
-    }).then((response) => {
-      response.json().then((data) => {
-        if (response.status !== 201) {
-          messageHTML.classList.add('message-failure');
-          messageHTML.classList.remove('message-success');
-          messageHTML.innerHTML = data.message;
-          return null;
-        }
-        cancelOrder();
-        window.setTimeout(() => { window.location.href = '/success.html'; }, 1000);
-        return null;
-      });
-    })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else {
+  if (result.length > 1) {
+    let counter = 1;
     for (const key in result) {
       if (result.hasOwnProperty(key)) {
+        console.log(counter);
+        const eachQuantity = document.getElementById(`quantity${counter}`).value;
+
         const element = result[key];
+          menuid = element.id;
+
+          const formData = {
+            menuid,
+            quantity : eachQuantity,
+            orderedby: userid,
+          };
+          const formdata = JSON.stringify(formData);
+          fetch('/api/v1/orders', {
+            method: 'POST',
+            body: formdata,
+            headers: {
+              'Content-Type': 'application/json',
+              token,
+            },
+            credentials: 'same-origin',
+          }).then((response) => {
+            response.json().then((data) => {
+              if (response.status !== 201) {
+                messageHTML.classList.add('message-failure');
+                messageHTML.classList.remove('message-success');
+                messageHTML.innerHTML = data.message;
+                return null;
+              }
+              // counter += 1;
+              // cancelOrder();
+              // window.setTimeout(() => { window.location.href = '/success.html'; }, 1000);
+              // return null;
+            });
+          })
+            .catch((err) => {
+              console.log(err);
+            });
+          // return null;
+          counter += 1;
+          if (result.length === counter){
+            cancelOrder();
+            window.setTimeout(() => { window.location.href = '/success.html'; }, 1000);
+            return null;
+          }
       }
+      
     }
   }
+
+  // if (result === null || result.length < 1) {
+  //   console.log('sorry add some items to the cart');
+  // } else if (result.length === 1) {
+  //   const userid = getUser();
+  //   let quantity;
+  //   let menuid;
+  //   result.forEach((element) => {
+  //     menuid = element.id;
+  //   });
+
+  //   const formData = {
+  //     menuid,
+  //     quantity,
+  //     orderedby: userid,
+  //   };
+  //   const formdata = JSON.stringify(formData);
+  //   fetch('/api/v1/orders', {
+  //     method: 'POST',
+  //     body: formdata,
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       token,
+  //     },
+  //     credentials: 'same-origin',
+  //   }).then((response) => {
+  //     response.json().then((data) => {
+  //       if (response.status !== 201) {
+  //         messageHTML.classList.add('message-failure');
+  //         messageHTML.classList.remove('message-success');
+  //         messageHTML.innerHTML = data.message;
+  //         return null;
+  //       }
+  //       cancelOrder();
+  //       window.setTimeout(() => { window.location.href = '/success.html'; }, 1000);
+  //       return null;
+  //     });
+  //   })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // } else {
+  //   for (const key in result) {
+  //     if (result.hasOwnProperty(key)) {
+  //       const element = result[key];
+  //     }
+  //   }
+  // }
 };
 
 

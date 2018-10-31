@@ -128,7 +128,7 @@ class fetchAPI {
 
   static getMenus() {
     let menuData;
-    fetch('api/v1/menus')
+    fetch('/api/v1/menus')
       .then(
         (response) => {
           if (response.status !== 200) {
