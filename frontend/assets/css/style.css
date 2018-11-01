@@ -446,7 +446,12 @@ nav{
     font-size: 1.7;
 }
 
-
+.select {
+    border: 1px solid #42ce9f;
+}
+option {
+    color: #42ce9f;
+}
 
 .form-group .field-long{
     width: 100%;
