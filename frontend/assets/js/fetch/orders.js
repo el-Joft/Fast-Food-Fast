@@ -1,6 +1,5 @@
 const token = localStorage.getItem('token');
 
-
 const getAllOrdersIn = () => {
   let orderData;
   fetch('/api/v1/orders', {
@@ -52,7 +51,7 @@ const getAllOrdersIn = () => {
                 const user = combinedData.fetchUser;
                 const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
                 const descpt = menu.description;
-                
+
                 output += `
                   <tr>
                     <td>${menu.name}</td>
@@ -63,12 +62,22 @@ const getAllOrdersIn = () => {
                     <td>${order.totalprice}</td>
                     <td>${order.created_date}</td>
                     <td>
-                        <div class="btn-normal"><a href="edit_food.html">Accept</a></div>
-                        <div class="btn-danger"><a href="">Reject</a></div>
-                        <div class="complete-label">
-                            <label for="complete">Mark as complete</label>
-                            <input type="checkbox" name="complete" id="">
-                        </div>
+                    
+                        <form class="form-group" id="form">
+                          <input type="hidden" name="orderId" value="${order.id}" />
+                          <div class="custom-select" style="">
+                            <select class="select" name="status">
+                              <option value="0">Select Status:</option>
+                              <option value="Processing">Processing</option>
+                              <option value="Cancelled">Cancelled</option>
+                              <option value="Completed">Completed</option>
+                            </select>
+                          </div>
+                          <input type="button" class="btn-normal" name="submit" value="Update status" onclick="showElements(this.form);">
+                          </form>
+                       
+                        <div class="btn-danger"><a href="">Delete</a></div>
+                        
                     </td>
                 </tr>
                 `;
@@ -108,8 +117,6 @@ const getAllOrdersHistory = () => {
           .then((data) => {
             let output = '';
             orderData = data.result;
-            // const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
-            // console.log(truncate('The quick brown fox jumps over the lazy dog', 4));
             orderData.forEach((order) => {
               // const descpt = order.description;
               // descpt.substring(0, 100 - ending.length);
@@ -137,7 +144,7 @@ const getAllOrdersHistory = () => {
                 const user = combinedData.fetchUser;
                 const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
                 const descpt = menu.description;
-                
+
                 output += `
                 <tr>
                     <td>${menu.name}</td>
@@ -148,13 +155,10 @@ const getAllOrdersHistory = () => {
                     <td>${order.totalprice}</td>
                     <td>${order.created_date}</td>
                     <td>${order.status}</td>
-
                 </tr>`;
                 document.getElementById('table-insert-history').innerHTML = output;
               });
-              document.getElementById('table-insert-history').innerHTML = output;
             });
-            document.getElementById('table-insert-history').innerHTML = output;
           });
       },
     )
@@ -165,151 +169,49 @@ const getAllOrdersHistory = () => {
 getAllOrdersHistory();
 
 
-
-
-
-// const getAllOrders = () => {
-//   fetch(appUrl, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       token,
-//     },
-//     credentials: 'same-origin',
-//   }).then(
-//     (response) => {
-//       if (response.status !== 200) {
-//         console.log(`Looks like there was a problem. Status Code: ${
-//           response.status}`);
-//         return;
-//       }
-//       // Examine the text in the response
-//       response.json()
-//         .then((data) => {
-//           const orderData = data.result;
-//           const table = document.getElementById('table-insert');
-//           orderData.forEach((element) => {
-//             const fetchMenu = fetch(`/api/v1/order/${element.menuid}`, {
-//               method: 'GET',
-//               headers: {
-//                 'Content-Type': 'application/json',
-//                 token,
-//               },
-//               credentials: 'same-origin',
-//             }).then(res => res.json());
-//             const fetchUser = fetch(`/api/v1/users/${element.orderedby}`, {
-//               method: 'GET',
-//               headers: {
-//                 'Content-Type': 'application/json',
-//                 token,
-//               },
-//               credentials: 'same-origin',
-//             }).then(res => res.json());
-//             const combinedData = { fetchMenu: {}, fetchUser: {} };
-//             Promise.all([fetchMenu, fetchUser]).then((values) => {
-//               combinedData.fetchMenu = values[0].result;
-//               combinedData.fetchUser = values[1].result;
-//               const menu = combinedData.fetchMenu;
-//               const user = combinedData.fetchUser;
-//               const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
-//               const descpt = menu.description;
-//               const output = `
-//               <tr>
-//                 <td>${menu.name}</td>
-//                 <td>${truncate(descpt, 5)}</td>
-//                 <td>${menu.price}</td>
-//                 <td>${element.quantity}</td>
-//                 <td>${user.firstname}</td>
-//                 <td>${element.totalprice}</td>
-//                 <td>${element.created_date}</td>
-//                 <td>
-//                     <div class="btn-normal"><a href="edit_food.html">Accept</a></div>
-//                     <div class="btn-danger"><a href="">Reject</a></div>
-//                     <div class="complete-label">
-//                         <label for="complete">Mark as complete</label>
-//                         <input type="checkbox" name="complete" id="">
-//                     </div>
-//                 </td>
-//             </tr>
-//             `;
-//               table.innerHTML = output;
-//             });
-//           });
-//         })
-//         .catch((err) => {
-//           console.log('Fetch Error :-S', err);
-//         });
-//     },
-//   );
-// };
-// getAllOrders();
-
-// const getOrders = () => {
-//   fetch(appUrl, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       token,
-//     },
-//     credentials: 'same-origin',
-//   }).then(
-//     (response) => {
-//       if (response.status !== 200) {
-//         console.log(`Looks like there was a problem. Status Code: ${
-//           response.status}`);
-//         return;
-//       }
-//       // Examine the text in the response
-//       response.json()
-//         .then((data) => {
-//           const orderData = data.result;
-//           const orderHistory = document.getElementById('table-insert-history');
-//           orderData.forEach((element) => {
-//             const fetchMenu = fetch(`/api/v1/menus/${element.menuid}`, {
-//               method: 'GET',
-//               headers: {
-//                 'Content-Type': 'application/json',
-//                 token,
-//               },
-//               credentials: 'same-origin',
-//             }).then(res => res.json());
-//             const fetchUser = fetch(`/api/v1/users/${element.orderedby}`, {
-//               method: 'GET',
-//               headers: {
-//                 'Content-Type': 'application/json',
-//                 token,
-//               },
-//               credentials: 'same-origin',
-//             }).then(res => res.json());
-//             const combinedData = { fetchMenu: {}, fetchUser: {} };
-//             Promise.all([fetchMenu, fetchUser]).then((values) => {
-//               combinedData.fetchMenu = values[0].result;
-//               combinedData.fetchUser = values[1].result;
-//               const menu = combinedData.fetchMenu;
-//               const user = combinedData.fetchUser;
-//               const truncate = (str, words) => str.split(' ').splice(0, words).join(' ');
-//               const descpt = menu.description;
-//               const allorders = `
-//               <tr>
-//                   <td>${menu.name}</td>
-//                   <td>${truncate(descpt, 5)}</td>
-//                   <td>${menu.price}</td>
-//                   <td>${element.quantity}</td>
-//                   <td>${user.firstname}</td>
-//                   <td>${element.totalprice}</td>
-//                   <td>${element.created_date}</td>
-//                   <td>${element.status}</td>
-
-//               </tr>
-//               `;
-//               orderHistory.innerHTML = allorders;
-//             });
-//           });
-//         })
-//         .catch((err) => {
-//           console.log('Fetch Error :-S', err);
-//         });
-//     },
-//   );
-// };
-// getOrders();
+function showElements(oForm) {
+  const values = oForm.elements.status;
+  const orderid = oForm.elements.orderId;
+  const id = orderid.value;
+  const value = values.value;
+  if (values.value === '0') {
+    return alert('please select a status');
+  }
+  const formData = {
+    status: value,
+  };
+  const formdata = JSON.stringify(formData);
+  fetch(`/api/v1/orders/${id}`, {
+    method: 'PUT',
+    body: formdata,
+    headers: {
+      'Content-Type': 'application/json',
+      token,
+    },
+    credentials: 'same-origin',
+  }).then((response) => {
+    response.json().then((data) => {
+      if (response.status !== 200) {
+        alert(data.message);
+        // messageHTML.classList.add('message-failure');
+        // messageHTML.classList.remove('message-success');
+        // messageHTML.innerHTML = data.message;
+        return null;
+      }
+      // localStorage.setItem('token', data.token);
+      // messageBox.classList.add('message-success');
+      // messageBox.classList.remove('message-failure');
+      // messageBox.innerHTML = 'Account created successfully';
+      // messageBox.classList.remove('hide');
+      window.setTimeout(() => { window.location.href = '/admin/order_history.html'; }, 1000);
+      return null;
+    });
+  })
+    .catch((err) => {
+      console.log(err.stack);
+    });
+  return null;
+  // let str = `Form Elements of form ${oForm.name}: \n`;
+  // for (i = 0; i < oForm.length; i++) { str += `${oForm.elements[i].name}\n`; }
+  // alert(str);
+}

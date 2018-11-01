@@ -33,7 +33,7 @@ const Routes = (router) => {
 
   router.route('/api/v1/orders/:id')
     .get(ensureAutheticated, OrderController.fetchAnOrder)
-    .put(isAdmin, ensureAutheticated, Validation.createOrUpdateOrderValidation, OrderController.updateAnOrderStatus)
+    .put(isAdmin, ensureAutheticated, Validation.updateOrderStatus, OrderController.adminUpdateOrder)
     .delete(isAdmin, ensureAutheticated, OrderController.deleteAnOrder);
 
   router.route('/api/v1/menus/:id')

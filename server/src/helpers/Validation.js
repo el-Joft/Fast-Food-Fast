@@ -37,6 +37,28 @@ class Validation {
     }
   }
 
+  static updateOrderStatus(req, res, next) {
+    const statusUpdate = req.body;
+    const {
+      status,
+    } = statusUpdate;
+    const errMsg = [];
+    if (!status) {
+      errMsg.push('Please specify a status');
+    }
+    const orderStatus = status.toLowerCase();
+    if (orderStatus.trim() !== 'processing' && orderStatus.trim() !== 'completed' && orderStatus.trim() !== 'cancelled') {
+      errMsg.push(' your order status can only be processing, completed or cancelled');
+    }
+    if (errMsg.length === 0) {
+      next();
+    } else {
+      res.status(400).json({
+        message: errMsg,
+      });
+    }
+  }
+
   static createOrUpdateMenuValidation(req, res, next) {
     const menu = req.body;
     const {
