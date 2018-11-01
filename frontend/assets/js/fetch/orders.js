@@ -54,7 +54,7 @@ const getAllOrdersIn = () => {
 
                 output += `
                   <tr>
-                    <td>${menu.name}</td>
+                    <td><div class="menu_links" onclick='fetchOrders(${order.id});'>${menu.name}</div></td>
                     <td>${truncate(descpt, 5)}</td>
                     <td>${menu.price}</td>
                     <td>${order.quantity}</td>
@@ -169,7 +169,7 @@ const getAllOrdersHistory = () => {
 getAllOrdersHistory();
 
 
-function showElements(oForm) {
+const showElements = (oForm) => {
   const values = oForm.elements.status;
   const orderid = oForm.elements.orderId;
   const id = orderid.value;
@@ -214,4 +214,9 @@ function showElements(oForm) {
   // let str = `Form Elements of form ${oForm.name}: \n`;
   // for (i = 0; i < oForm.length; i++) { str += `${oForm.elements[i].name}\n`; }
   // alert(str);
-}
+};
+
+
+const fetchOrders = (id) => {
+  window.location.replace(`/admin/single_order.html?id=${id}`);
+};
