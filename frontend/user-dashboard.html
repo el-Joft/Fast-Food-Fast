@@ -116,121 +116,29 @@
                     <div class="history-head-text">
                         <h3>YOUR ORDER HISTORY</h3>
                     </div>
-                    <div class="history-body">
-                       
-                        <div class="history-item item">
-                            
-                            <h3>Item</h3>
-                            <div>
-                                <h2>Lorem Ipsum</h2>
-                                <p>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam.
-                                    Ex, nobis quasi dolorum cupiditate possimus 
-                                    minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?
-                                </p>
-                            </div>
-                            
-                        </div>
-                        <div class="history-item history-quantity">
-                            <h3>Quantity</h3>
-                            <p>3</p>
-                        </div>
-                        <div class="history-item history-price">
-                            <h3>Price</h3>
-                            <p><strike>N</strike>1999.99</p>
-                        </div>
-                        <div class="history-item history-total">
-                            <h3>Total</h3>
-                            <p><strike>N</strike> 3999.99</p>
-                        </div>
-                        <div class="history-item history-date">
-                            <h3>Date</h3>
-                            <p>24/5/2018</p>
-                        </div>
-                        <div class="history-item history-time">
-                            <h3>Time</h3>
-                            <p>12:45pm</p>
-                        </div>
+                    <div class="">
+                        <table class="admin-table">
+                            <thead class="table-head">
+                                <tr>
+                                <th>Item</th>
+                                <th>Description</th>
+                                <th>Price (<strike>N</strike>)</th>
+                                <th>Qty</th>
+                                <th>Total (<strike>N</strike>)</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body">
+                                
+                            </tbody>
+                            <tfoot>
+                               
+                            </tfoot>
+                        </table>
+                                
                     </div>
-                    
-                        
-              
-
-               <div class="history-body">
-                       
-                    <div class="history-item item">
-                        
-                        <h3>Item</h3>
-                        <div>
-                            <h2>Lorem Ipsum</h2>
-                            <p>
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam.
-                                Ex, nobis quasi dolorum cupiditate possimus 
-                                minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?
-                            </p>
-                        </div>
-                    </div>
-                    <div class="history-item history-quantity">
-                        <h3>Quantity</h3>
-                        <p>3</p>
-                    </div>
-                    <div class="history-item history-price">
-                        <h3>Price</h3>
-                        <p><strike>N</strike>1999.99</p>
-                    </div>
-                    <div class="history-item history-total">
-                        <h3>Total</h3>
-                        <p><strike>N</strike> 3999.99</p>
-                    </div>
-                    <div class="history-item history-date">
-                        <h3>Date</h3>
-                        <p>24/5/2018</p>
-                    </div>
-                    <div class="history-item history-time">
-                        <h3>Time</h3>
-                        <p>12:45pm</p>
-                    </div>
-                </div>
-                
-                    
-         
-
-            <div class="history-body">
-                        
-                <div class="history-item item">
-                    
-                    <h3>Item</h3>
-                    <div>
-                        <h2>Lorem Ipsum</h2>
-                        <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam.
-                            Ex, nobis quasi dolorum cupiditate possimus 
-                            minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?
-                        </p>
-                    </div>
-                </div>
-                <div class="history-item history-quantity">
-                    <h3>Quantity</h3>
-                    <p>3</p>
-                </div>
-                <div class="history-item history-price">
-                    <h3>Price</h3>
-                    <p><strike>N</strike>1999.99</p>
-                </div>
-                <div class="history-item history-total">
-                    <h3>Total</h3>
-                    <p><strike>N</strike> 3999.99</p>
-                </div>
-                <div class="history-item history-date">
-                    <h3>Date</h3>
-                    <p>24/5/2018</p>
-                </div>
-                <div class="history-item history-time">
-                    <h3>Time</h3>
-                    <p>12:45pm</p>
-                </div>
-            </div>
-                
+                   
             <div class="menu-text">
                 <h3 class="full-menu"><a href="">View More</a> </h3>
             </div>   
@@ -249,6 +157,7 @@
         </section>
         
         <script src="assets/js/app.js"></script>
+        <script src="assets/js/fetch/userOrder.js"></script>
         <script>
             window.onload = () => {
                 app.mobileNavbar();

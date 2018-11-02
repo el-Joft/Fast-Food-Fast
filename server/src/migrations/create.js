@@ -30,7 +30,7 @@ const createUsersTables = () => {
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      // pool.end();
     });
 
   const defaultAdmin = () => {
@@ -83,7 +83,7 @@ const createMenusTables = () => {
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      // pool.end();
     });
 };
 
@@ -110,7 +110,7 @@ const createOrderTables = () => {
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      // pool.end();
     });
 };
 

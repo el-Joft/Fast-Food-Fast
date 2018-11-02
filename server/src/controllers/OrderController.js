@@ -100,7 +100,7 @@ class OrderController {
         if (err) {
           res.status(500).send('Could not establish database connection');
         } else {
-          const result = data.rows[0];
+          const result = data.rows;
           if (result) {
             res.status(200).json({
               result,
