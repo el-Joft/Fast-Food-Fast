@@ -4,7 +4,9 @@
   "description": "A food delivery service app for a restaurant..",
   "main": "index.js",
   "scripts": {
+    "pretest": "npm run test:drop && npm run test:create",
     "test": "nyc mocha --compilers js:babel-register \"./server/src/test/*.spec.js\" --exit ",
+    "posttest": "npm run test:drop",
     "test:create": "psql -U postgres -d Fast-Food-Test -f ./server/src/config/test/create.sql",
     "test:drop": "psql -U postgres -d Fast-Food-Test -f ./server/src/config/test/drop.sql",
     "test:local": "cross-env NODE_ENV=test npm run test:create && npm run test && npm run test:drop",
