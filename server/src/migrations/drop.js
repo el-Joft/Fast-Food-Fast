@@ -1,8 +1,24 @@
 import pool from '../config/databaseConfig';
 
 /**
- * Drop Tables
- */
+ * Drop Tables */
+const dropCategoryTables = () => {
+  const queryText = 'DROP TABLE IF EXISTS category';
+  pool.query(queryText)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      // pool.end();
+    });
+};
+
+pool.on('remove', () => {
+  console.log('client removed');
+  // process.exit(0);
+});
+
 const dropUsersTables = () => {
   const queryText = 'DROP TABLE IF EXISTS users';
   pool.query(queryText)
@@ -11,13 +27,13 @@ const dropUsersTables = () => {
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      // pool.end();
     });
 };
 
 pool.on('remove', () => {
   console.log('client removed');
-  process.exit(0);
+  // process.exit(0);
 });
 
 const dropMenusTables = () => {
@@ -34,7 +50,7 @@ const dropMenusTables = () => {
 
 pool.on('remove', () => {
   console.log('client removed');
-  process.exit(0);
+  // process.exit(0);
 });
 
 const dropOrdersTables = () => {
@@ -51,9 +67,9 @@ const dropOrdersTables = () => {
 
 pool.on('remove', () => {
   console.log('client removed');
-  process.exit(0);
+  // process.exit(0);
 });
-
+dropCategoryTables();
 dropUsersTables();
 dropMenusTables();
 dropOrdersTables();

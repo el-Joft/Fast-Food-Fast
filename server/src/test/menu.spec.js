@@ -3,8 +3,8 @@ import chaiHttp from 'chai-http';
 import app from '../index';
 
 chai.use(chaiHttp);
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MSwiZW1haWwiOiJvdHRpbW90aHlAZ21haWwuY29tICAgICAgICIsImlhdCI6MTU0NTU4NjYxOX0.mqRfhSNDkHQr5cR4ml19M1ve2zGPy7SifI-BtW8AYD0';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoxLCJlbWFpbCI6Im11aGZ1Y2tlckBnbWFpbC5jb20iLCJpYXQiOjE1Mzg2ODUyOTJ9.yK9bqyVonzdWJjvzYsMn8WyxlXJoieIbVT7QI7Spg6A';
 let menuID;
 let secondMenuId;
 let firstOrder;
@@ -18,7 +18,7 @@ describe('Test to get all Menus', () => {
           'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
         image: 'path',
         price: 3000,
-        categoryid: 2,
+        categoryid: 1,
         isAvailable: true,
       };
       chai
@@ -28,7 +28,7 @@ describe('Test to get all Menus', () => {
         .set('token', token)
         .end((err, res) => {
           menuID = res.body.result.id;
-          expect(res).to.have.status(200);
+          expect(res).to.have.status(201);
           expect(res.body.message).to.equal('Menu was successfully Created');
           expect(res.body).to.be.an('object');
           done();
@@ -41,7 +41,7 @@ describe('Test to get all Menus', () => {
           'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
         image: 'path',
         price: 3000,
-        categoryId: 2,
+        categoryid: 1,
         isAvailable: true,
       };
       chai
@@ -50,13 +50,13 @@ describe('Test to get all Menus', () => {
         .send(data)
         .set('token', token)
         .end((err, res) => {
-          // menuID = res.body.result.id;
           expect(res).to.have.status(200);
           expect(res.body.message).to.equal('Menu was updated successfully');
           expect(res.body).to.be.an('object');
           done();
         });
     });
+
     it('should return 400 for a if a params is not complete', (done) => {
       const data = {
         // name: 'Lorem Ipsum',
@@ -64,7 +64,7 @@ describe('Test to get all Menus', () => {
           'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
         image: 'path',
         price: 3000,
-        categoryid: 2,
+        categoryid: 1,
         isAvailable: true,
       };
       chai.request(app)
@@ -76,15 +76,14 @@ describe('Test to get all Menus', () => {
           done();
         });
     });
-
-    it('should return 200 for a successfully creating a Menu', (done) => {
+    it('should return 500 if it cannot create a Menu', (done) => {
       const data = {
         name: 'Lorem Ipsum',
         description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
+            'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
         image: 'path',
         price: 3000,
-        categoryid: 2,
+        categoryid: 30000000,
         isAvailable: true,
       };
       chai
@@ -93,39 +92,16 @@ describe('Test to get all Menus', () => {
         .send(data)
         .set('token', token)
         .end((err, res) => {
-          secondMenuId = res.body.result.id;
-          expect(res).to.have.status(200);
-          expect(res.body.message).to.equal('Menu was successfully Created');
-          expect(res.body).to.be.an('object');
+          expect(res).to.have.status(500);
+
           done();
         });
     });
-    // it('should return 500 if it cannot create a Menu', (done) => {
-    //   const data = {
-    //     name: 'Lorem Ipsum',
-    //     descrion:
-    //         'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
-    //     image: 'path',
-    //     price: 3000,
-    //     categoryId: 2,
-    //     isAvailable: true,
-    //   };
-    //   chai
-    //     .request(app)
-    //     .post('/api/v1/menus')
-    //     .send(data)
-    //     .set('token', token)
-    //     .end((err, res) => {
-    //       expect(res).to.have.status(500);
-
-    //       done();
-    //     });
-    // });
   });
   describe('Test to create an Order', () => {
     it('should return 200 for a successfully creating an Order', (done) => {
       const data = {
-        menuid: secondMenuId,
+        menuid: 2,
         orderedby: 1,
         quantity: 2,
         totalprice: 1999,
@@ -135,7 +111,9 @@ describe('Test to get all Menus', () => {
         .send(data)
         .set('token', token)
         .end((err, res) => {
-          firstOrder = res.body.results.id;
+          console.log(res.body);
+
+          // firstOrder = res.body.results.id;
           expect(res).to.have.status(201);
           expect(res.body.message).to.equal('Order was successfully made');
           expect(res.body).to.be.an('object');
@@ -155,23 +133,7 @@ describe('Test to get all Menus', () => {
         .send(data)
         .set('token', token)
         .end((error, res) => {
-          expect(res).to.have.status(401);
-          done();
-        });
-    });
-    it('should return 500 if cannot save data to the database', (done) => {
-      const data = {
-        menuid: secondMenuId,
-        orderedby: 1,
-        quantity: 2,
-        totalpri: 1999.99,
-      };
-      chai.request(app)
-        .post('/api/v1/orders')
-        .send(data)
-        .set('token', token)
-        .end((error, res) => {
-          expect(res).to.have.status(500);
+          expect(res).to.have.status(400);
           done();
         });
     });
@@ -180,16 +142,14 @@ describe('Test to get all Menus', () => {
   describe('Test to Update an Order', () => {
     it('it should return 200 if successful', (done) => {
       const data = {
-        menuid: secondMenuId,
+        menuid: 2,
         orderedby: 1,
         quantity: 2,
         totalprice: 1999.99,
         status: 'processing',
       };
-      console.log(firstOrder);
-
       chai.request(app)
-        .put(`/api/v1/orders/${firstOrder}`)
+        .put('/api/v1/orders/10')
         .send(data)
         .set('token', token)
         .end((error, response) => {
@@ -198,6 +158,7 @@ describe('Test to get all Menus', () => {
           done();
         });
     });
+
     it('should return 500 if cannot update Order data to the database', (done) => {
       const data = {
         menuid: secondMenuId,
@@ -219,7 +180,7 @@ describe('Test to get all Menus', () => {
   describe('Test for single order id', () => {
     it('should return an order', (done) => {
       chai.request(app)
-        .get(`/api/v1/orders/${firstOrder}`)
+        .get('/api/v1/orders/10')
         .set('token', token)
         .end((error, res) => {
           expect(res).to.have.status(200);
@@ -260,9 +221,9 @@ describe('Test to get all Menus', () => {
     it('should show a not found message', (done) => {
       chai
         .request(app)
-        .get('/api/v1/menus/0')
+        .get('/api/v1/menus/00000')
         .end((error, res) => {
-          expect(res).to.have.status(404);
+          expect(res.body).to.have.status(404);
           done(error);
         });
     });

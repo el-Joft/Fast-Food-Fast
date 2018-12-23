@@ -4,8 +4,7 @@ import chaiHttp from 'chai-http';
 import app from '../index';
 
 chai.use(chaiHttp);
-
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoxLCJlbWFpbCI6Im11aGZ1Y2tlckBnbWFpbC5jb20iLCJpYXQiOjE1Mzg2ODUyOTJ9.yK9bqyVonzdWJjvzYsMn8WyxlXJoieIbVT7QI7Spg6A';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MSwiZW1haWwiOiJvdHRpbW90aHlAZ21haWwuY29tICAgICAgICIsImlhdCI6MTU0NTU4NjYxOX0.mqRfhSNDkHQr5cR4ml19M1ve2zGPy7SifI-BtW8AYD0';
 
 describe('Test to get all orders', () => {
   /* All orders made */
