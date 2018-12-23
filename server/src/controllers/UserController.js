@@ -60,7 +60,6 @@ class UserController {
     pool.query(find('*', 'users', 'email', email), (err, user) => {
       if (err) {
         console.log(err);
-
         res.status(500).json({ message: 'Could not establish database connection' });
       } else {
         const userResult = user.rows[0];

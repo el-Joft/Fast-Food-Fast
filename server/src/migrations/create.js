@@ -50,7 +50,7 @@ const createUsersTables = () => {
     ];
     const userText = 'INSERT INTO users(role, email, password, firstname) VALUES($1, $2, $3, $4 ) RETURNING *';
 
-    pool.query(userText, values, (error, data) => {
+    pool.query(userText, values, (error) => {
       if (error) {
         console.log(`create error --- ${error}`);
       } else {
@@ -59,6 +59,43 @@ const createUsersTables = () => {
     });
   };
   defaultAdmin();
+};
+
+const createCategoryTables = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS
+      category(
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(40) NOT NULL,
+        created_date TIMESTAMP DEFAULT NOW(),
+        modified_date TIMESTAMP DEFAULT NOW()
+      )`;
+
+  pool.query(queryText)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      // pool.end();
+    });
+  const defaultCategory = () => {
+    const categoryData = {
+      name: 'Sweet and cakes',
+    };
+    const values = [
+      categoryData.name,
+    ];
+    const categoryText = 'INSERT INTO category(name) VALUES($1) RETURNING *';
+
+    pool.query(categoryText, values, (error) => {
+      if (error) {
+        console.log(`create error --- ${error}`);
+      } else {
+        console.log('sucessfully created');
+      }
+    });
+  };
+  defaultCategory();
 };
 
 
@@ -85,6 +122,35 @@ const createMenusTables = () => {
       console.log(err);
       // pool.end();
     });
+  const defaultMenu = () => {
+    const data = {
+      name: 'Lorem Ipsum',
+      description:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio delectus possimus totam. Ex, nobis quasi dolorum cupiditate possimus minus officia vel repudiandae, perspiciatis nihil itaque quas magni maxime placeat aliquam?',
+      image: 'path',
+      price: 3000,
+      categoryid: 1,
+      isAvailable: true,
+    };
+    const values = [
+      data.name,
+      data.description,
+      data.image,
+      data.price,
+      data.categoryid,
+      data.isAvailable,
+    ];
+    const menuText = 'INSERT INTO menu(name, description, image, price, categoryid, isAvailable) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
+
+    pool.query(menuText, values, (error) => {
+      if (error) {
+        console.log(`create error --- ${error}`);
+      } else {
+        console.log('sucessfully created');
+      }
+    });
+  };
+  defaultMenu();
 };
 
 
@@ -93,7 +159,7 @@ const createOrderTables = () => {
     orders(
       id SERIAL PRIMARY KEY,
       menuid INT NOT NULL,
-      FOREIGN KEY (menuId) REFERENCES menus (id),
+      FOREIGN KEY (menuid) REFERENCES menus (id),
       timeordered TIME WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
       orderedby INT NOT NULL,
       FOREIGN KEY (orderedby) REFERENCES users (id),
@@ -116,5 +182,6 @@ const createOrderTables = () => {
 
 
 createUsersTables();
+createCategoryTables();
 createMenusTables();
 createOrderTables();

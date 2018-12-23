@@ -17,8 +17,8 @@ const Routes = (router) => {
   router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   router.route('/api/v1/category')
-    .get(CategoryController.listAllCategory)
-    .post(Validation.createCategoryValidation, CategoryController.createACategory);
+    .get(isAdmin, CategoryController.listAllCategory)
+    .post(isAdmin, Validation.createCategoryValidation, CategoryController.createACategory);
 
   router.route('/api/v1/category/:id')
     .get(CategoryController.getMenuCategory);

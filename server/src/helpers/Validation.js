@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 class Validation {
   static createOrUpdateOrderValidation(req, res, next) {
     const order = req.body;
@@ -28,7 +29,6 @@ class Validation {
     }
 
     if (errMsg.length === 0) {
-      // array empty or does not exist
       next();
     } else {
       res.status(400).json({
@@ -70,7 +70,6 @@ class Validation {
       isAvailable,
     } = menu;
     const errMsg = [];
-
 
     if (!name || name.trim() === '') {
       errMsg.push('Name of the Menu is required');
@@ -174,11 +173,6 @@ class Validation {
     } else if (password.length >= 25) {
       errMsg.push('Password Character cannot be more than 25');
     }
-
-    // /* check if password is matching  */
-    // if (!confirmPassword || confirmPassword !== password) {
-    //   errMsg = 'Password does not match';
-    // }
 
     /* check for address  */
     if (!address || address.trim() === '' && (typeof address !== 'string')) {
