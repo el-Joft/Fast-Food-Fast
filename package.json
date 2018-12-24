@@ -18,9 +18,6 @@
     "migration": "nodemon --exec babel-node ./server/src/migrations/create.js",
     "drop": "nodemon --exec babel-node ./server/src/migrations/drop.js"
   },
-  "engines": {
-    "node": "8.9.4"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/el-Joft/Fast-Food-Fast.git"

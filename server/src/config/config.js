@@ -19,6 +19,4 @@ dbConfig.database = {
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 };
-
-
 export default dbConfig;
