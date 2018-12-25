@@ -19,7 +19,7 @@
     "drop": "nodemon --exec babel-node ./server/src/migrations/drop.js"
   },
   "engines": {
-    "node": "6.11.1"
+    "node": "10.x"
   },
   "repository": {
     "type": "git",
