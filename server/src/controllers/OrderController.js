@@ -5,7 +5,15 @@ import { orderText, find, deleteOrder } from '../helpers/queryHelpers';
 class OrderController {
   static listAllOrders(req, res) {
     // pool.query(findAllOrder('*', 'orders'), (err, response) => {
-    pool.query(('SELECT * FROM orders'), (err, response) => {
+    // const userHistoryQuery = `SELECT o.order_id, o.mealitem,o.created_on, o.quantity, o.cost, o.status, u.user_id, u.lastname, u.firstname  FROM orders
+    //  as o INNER JOIN users AS u ON o.user_id = u.user_id WHERE u.user_id = $1`;
+
+    const value = `
+    SELECT name, description, price, quantity, firstname, totalprice FROM menus INNER JOIN orders
+        ON menus.id = orders.menuid INNER JOIN users ON orders.orderedby = users.id 
+    `;
+
+    pool.query(value, (err, response) => {
       if (err) {
         res.status(500).json('Could not establish database connection');
       } else if (response.rowCount > 0) {
@@ -29,15 +37,6 @@ class OrderController {
       orderedby,
       quantity,
     } = req.body;
-
-    // const values = [
-    //   menuid,
-    //   orderedby,
-    //   quantity,
-    //   totalprice,
-    // ];
-
-    // callback
 
     pool.query(find('*', 'menus', 'id', menuid), (err, response) => {
       if (err) {
@@ -96,7 +95,12 @@ class OrderController {
     if (isNaN(id)) {
       res.status(400).send('User Id is Invalid');
     } else {
-      pool.query(find('*', 'orders', 'orderedBy', id), (err, data) => {
+      const value = `
+    SELECT name, description, price, quantity, totalprice FROM menus INNER JOIN orders
+        ON menus.id = orders.menuid INNER JOIN users ON orders.orderedby = users.id WHERE orderedBy = ${id}
+    `;
+      // pool.query(find('*', 'orders', 'orderedBy', id), (err, data) => {
+      pool.query(value, (err, data) => {
         if (err) {
           res.status(500).send('Could not establish database connection');
         } else {
