@@ -4,4 +4,4 @@
 .nyc_output
 .vscode
 /coverage
-
+.idea/
