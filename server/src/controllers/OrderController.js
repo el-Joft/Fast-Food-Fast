@@ -9,7 +9,7 @@ class OrderController {
     //  as o INNER JOIN users AS u ON o.user_id = u.user_id WHERE u.user_id = $1`;
 
     const value = `
-    SELECT name, description, price, quantity, firstname, totalprice FROM menus INNER JOIN orders
+    SELECT name, description, orders.id, price, quantity, firstname, totalprice FROM menus INNER JOIN orders
         ON menus.id = orders.menuid INNER JOIN users ON orders.orderedby = users.id 
     `;
 
@@ -96,7 +96,7 @@ class OrderController {
       res.status(400).send('User Id is Invalid');
     } else {
       const value = `
-    SELECT name, description, price, quantity, totalprice FROM menus INNER JOIN orders
+    SELECT name, description, orders.id, price, quantity, totalprice FROM menus INNER JOIN orders
         ON menus.id = orders.menuid INNER JOIN users ON orders.orderedby = users.id WHERE orderedBy = ${id}
     `;
       // pool.query(find('*', 'orders', 'orderedBy', id), (err, data) => {
